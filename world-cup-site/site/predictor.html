@@ -1,0 +1,31 @@
+<!-- site/predictor.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Predictor | AI Football Predictor</title>
+  <meta name="description" content="AI football prediction leaderboard with confidence scores and accuracy history.">
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <script type="module" src="./assets/js/common.js"></script>
+  <script type="module" src="./assets/js/predictor.js"></script>
+</head>
+<body>
+  <header class="site-header" data-site-header></header>
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Predictor</p>
+      <h1>AI Accuracy Tracker</h1>
+      <p>Every prediction is archived so the model can be judged by its record.</p>
+    </section>
+    <section class="toolbar">
+      <button class="button secondary" type="button" data-refresh-predictions>Refresh</button>
+      <span class="status-pill" data-predictor-status>Waiting for data</span>
+    </section>
+    <section class="prediction-list" data-predictions>
+      <article class="empty-state">Prediction data will appear after Supabase is connected.</article>
+    </section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+</body>
+</html>

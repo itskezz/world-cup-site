@@ -1,0 +1,16 @@
+// automation/package.json
+{
+  "name": "world-cup-site-automation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:matches": "node scripts/sync-matches.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

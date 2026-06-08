@@ -1,0 +1,31 @@
+<!-- site/live.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Live Matches | AI Football Predictor</title>
+  <meta name="description" content="Live World Cup match updates powered by public read-only data.">
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <script type="module" src="./assets/js/common.js"></script>
+  <script type="module" src="./assets/js/live.js"></script>
+</head>
+<body>
+  <header class="site-header" data-site-header></header>
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Live</p>
+      <h1>Match Center</h1>
+      <p>Updates refresh from the public read-only data layer.</p>
+    </section>
+    <section class="toolbar">
+      <button class="button secondary" type="button" data-refresh-live>Refresh</button>
+      <span class="status-pill" data-live-status>Waiting for data</span>
+    </section>
+    <section class="match-list" data-live-matches>
+      <article class="empty-state">Live match data will appear after Supabase is connected.</article>
+    </section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+</body>
+</html>
