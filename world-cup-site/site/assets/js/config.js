@@ -1,8 +1,8 @@
 // site/assets/js/config.js
 export const config = Object.freeze({
   siteName: "AI Football Predictor",
-  siteBaseUrl: "https://your-subdomain.example.com",
-  supabaseUrl: "PASTE_SUPABASE_PROJECT_URL_HERE",
-  supabaseAnonKey: "PASTE_SUPABASE_ANON_PUBLIC_KEY_HERE",
+  siteBaseUrl: "worldcupupdates.kezcorperations.com",
+  supabaseUrl: "https://mvsyroewodrzzhbwpkps.supabase.co",
+  supabaseAnonKey: "sb_publishable_OrD6AUPy-d7clR4zgRahmQ_zfZQn3at",
   pollingMs: 45000
 });
