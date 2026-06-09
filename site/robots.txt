@@ -1,0 +1,5 @@
+# site/robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://worldcupupdates.kezcorperations.com/

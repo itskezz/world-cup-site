@@ -6,7 +6,9 @@
   "scripts": {
     "sync:matches": "node scripts/sync-matches.js",
     "predictor:update": "node scripts/update-predictor.js",
-    "seo:articles": "node scripts/generate-seo-articles.js"
+    "seo:articles": "node scripts/generate-seo-articles.js",
+    "score:predictions": "node scripts/score-predictions.js",
+    "sitemap:generate": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4"

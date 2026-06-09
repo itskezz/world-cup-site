@@ -1,0 +1,43 @@
+# .github/workflows/sitemap.yml
+name: Generate sitemap
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**/*.html"
+      - ".github/workflows/sitemap.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate-sitemap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    defaults:
+      run:
+        working-directory: automation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate sitemap
+        run: npm run sitemap:generate
+        env:
+          SITE_BASE_URL: ${{ secrets.SITE_BASE_URL }}
+
+      - name: Commit sitemap
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update sitemap
+          file_pattern: site/sitemap.xml
