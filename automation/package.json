@@ -8,7 +8,8 @@
     "predictor:update": "node scripts/update-predictor.js",
     "seo:articles": "node scripts/generate-seo-articles.js",
     "score:predictions": "node scripts/score-predictions.js",
-    "sitemap:generate": "node scripts/generate-sitemap.js"
+    "sitemap:generate": "node scripts/generate-sitemap.js",
+    "preview:generate": "node scripts/generate-preview.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4"
