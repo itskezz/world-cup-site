@@ -334,3 +334,43 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+.article-copy {
+  max-width: 860px;
+}
+
+.article-section {
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.article-section h2 {
+  margin: 0 0 12px;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+
+.article-section h3 {
+  margin: 22px 0 8px;
+  font-size: 1.1rem;
+}
+
+.article-section p {
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.disclosure-box {
+  margin-top: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  background: var(--surface-muted);
+}
+
+.disclosure-box p {
+  margin-bottom: 0;
+  color: var(--muted);
+}

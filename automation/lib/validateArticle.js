@@ -1,32 +1,40 @@
 // automation/lib/validateArticle.js
-const REQUIRED_KEYS = ["title", "description", "sections"];
-
-export function validateArticle(article, match) {
-  for (const key of REQUIRED_KEYS) {
-    if (!article[key]) {
-      throw new Error(`Article missing required key: ${key}`);
-    }
+export function validateArticle(article, match, topic) {
+  if (!article.title || !article.description || !Array.isArray(article.sections)) {
+    throw new Error("Article must include title, description, and sections");
   }
 
-  if (!Array.isArray(article.sections) || article.sections.length < 3) {
-    throw new Error("Article must include at least 3 sections");
+  if (article.sections.length < 4) {
+    throw new Error("Article must include at least 4 sections");
   }
 
-  const text = JSON.stringify(article).toLowerCase();
+  const allText = JSON.stringify(article).toLowerCase();
 
-  const home = match.home_team.toLowerCase();
-  const away = match.away_team.toLowerCase();
+  if (!allText.includes(match.home_team.toLowerCase())) {
+    throw new Error("Article does not mention home team");
+  }
 
-  if (!text.includes(home) || !text.includes(away)) {
-    throw new Error("Article does not mention both teams");
+  if (!allText.includes(match.away_team.toLowerCase())) {
+    throw new Error("Article does not mention away team");
+  }
+
+  if (!allText.includes(topic.primaryKeyword.toLowerCase().split(" ")[0])) {
+    throw new Error("Article appears unrelated to topic");
   }
 
   return {
-    title: String(article.title).slice(0, 90),
+    title: String(article.title).slice(0, 92),
     description: String(article.description).slice(0, 170),
-    sections: article.sections.slice(0, 6).map((section) => ({
-      heading: String(section.heading || "").slice(0, 80),
-      body: String(section.body || "").slice(0, 1200)
-    }))
+    intro: String(article.intro || "").slice(0, 900),
+    sections: article.sections.slice(0, 8).map((section) => ({
+      heading: String(section.heading || "").slice(0, 90),
+      body: String(section.body || "").slice(0, 1400)
+    })),
+    faqs: Array.isArray(article.faqs)
+      ? article.faqs.slice(0, 4).map((faq) => ({
+          question: String(faq.question || "").slice(0, 120),
+          answer: String(faq.answer || "").slice(0, 600)
+        }))
+      : []
   };
 }
