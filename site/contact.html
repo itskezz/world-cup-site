@@ -1,21 +1,85 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Contact | AI Football Predictor</title>
-  <meta name="description" content="Contact AI Football Predictor for corrections, business inquiries, and compliance requests.">
+  <meta name="description" content="Contact the AI Football Predictor team for factual corrections, advertising inquiries, and data compliance.">
   <link rel="stylesheet" href="./assets/css/main.css">
   <script type="module" src="./assets/js/common.js"></script>
 </head>
 <body>
+
   <header class="site-header" data-site-header></header>
-  <main class="page-shell legal-copy">
-    <h1>Contact</h1>
-    <p>For corrections, business inquiries, affiliate questions, advertising requests, compliance issues, or content removal requests, contact: <a href="mailto:hello@example.com">hello@example.com</a>.</p>
-    <p>If you are reporting an error, include the page URL, the match or article involved, the correction requested, and a reliable source if available. We review factual corrections, broken links, outdated match data, and compliance concerns in good faith.</p>
-    <p>For legal, privacy, or gambling compliance matters, include your jurisdiction and the nature of your request. Do not send sensitive personal information unless it is necessary for the request.</p>
-    <p>This contact page does not create an attorney-client, financial advisory, gambling advisory, or professional relationship. Site content remains informational unless a written agreement says otherwise.</p>
+
+  <main class="page-shell contact-portal">
+    <div class="contact-container">
+      
+      <section class="contact-form-section">
+        <h1>Get in Touch</h1>
+        <p class="subtitle">Have a question or feedback? Drop us a message below and our team will review it shortly.</p>
+        
+        <form action="YOUR_FORM_ENDPOINT" method="POST" class="interactive-form">
+          <div class="form-group">
+            <label for="user-name">Your Name</label>
+            <input type="text" id="user-name" name="name" required placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label for="user-email">Email Address</label>
+            <input type="email" id="user-email" name="email" required placeholder="you@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="contact-reason">Reason for Inquiry</label>
+            <select id="contact-reason" name="reason" required>
+              <option value="" disabled selected>Select an option...</option>
+              <option value="correction">Factual Correction / Match Data Error</option>
+              <option value="business">Business & Advertising Inquiries</option>
+              <option value="affiliate">Affiliate & Partnerships</option>
+              <option value="compliance">Legal, Privacy, or Gambling Compliance</option>
+              <option value="other">General Feedback</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="user-message">Message / Details</label>
+            <textarea id="user-message" name="message" rows="6" required placeholder="Please provide as much detail as possible..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </section>
+
+      <aside class="contact-guidelines">
+        <div class="guideline-card">
+          <h3>Submission Guidelines</h3>
+          
+          <div class="guideline-item">
+            <h4>Reporting Errors?</h4>
+            <p>Please include the specific match, page URL, the exact data point that requires updating, and a reliable reference link if available. We audit factual updates in good faith.</p>
+          </div>
+
+          <div class="guideline-item">
+            <h4>Compliance & Legal</h4>
+            <p>For regulatory or data removal requests, please specify your current legal jurisdiction so we can route your ticket to the correct desk.</p>
+          </div>
+
+          <div class="guideline-item">
+            <h4>Alternative Channel</h4>
+            <p>Prefer direct email? You can still reach our primary inbox at <a href="mailto:worldcupupdates.kezcorp@gmail.com">worldcupupdates.kezcorp@gmail.com</a>.</p>
+          </div>
+        </div>
+        
+        <p class="disclaimer">
+          <strong>Notice:</strong> Submitting an inquiry does not establish an attorney-client, financial advisory, or professional relationship. All insights on this platform remain strictly informational.
+        </p>
+      </aside>
+
+    </div>
   </main>
+
   <footer class="site-footer" data-site-footer></footer>
+
 </body>
 </html>
