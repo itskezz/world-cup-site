@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "sync:matches": "node scripts/sync-matches.js",
-    "predictor:update": "node scripts/update-predictor.js"
+    "predictor:update": "node scripts/update-predictor.js",
+    "preview:generate": "node scripts/generate-preview.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4"
