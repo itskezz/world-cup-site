@@ -1,4 +1,6 @@
 // site/assets/js/analysis.js
+import { config } from "./config.js";
+
 const target = document.querySelector("[data-article-list]");
 const filterButtons = document.querySelectorAll("[data-article-filter]");
 
@@ -18,12 +20,32 @@ function articleLabel(type) {
   return String(type || "analysis").replaceAll("-", " ");
 }
 
+async function fetchArticles() {
+  const url = new URL("/rest/v1/public_generated_articles", config.supabaseUrl);
+  url.searchParams.set("select", "*");
+  url.searchParams.set("order", "created_at.desc");
+  url.searchParams.set("limit", "100");
+
+  const response = await fetch(url, {
+    headers: {
+      apikey: config.supabaseAnonKey,
+      Authorization: `Bearer ${config.supabaseAnonKey}`
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Article fetch failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+
 function renderArticles(type = "all") {
   if (!target) return;
 
   const visible = type === "all"
     ? articles
-    : articles.filter((article) => article.type === type);
+    : articles.filter((article) => article.article_type === type);
 
   if (!visible.length) {
     target.innerHTML = `<article class="empty-state">No articles found for this category yet.</article>`;
@@ -32,38 +54,18 @@ function renderArticles(type = "all") {
 
   target.innerHTML = visible.map((article) => `
     <article class="article-list-card">
-      <a class="article-card-link" href="./articles/${escapeHtml(article.slug)}.html">
-        <span class="article-type">${escapeHtml(articleLabel(article.type))}</span>
+      <a class="article-card-link" href="./${escapeHtml(article.url_path)}">
+        <span class="article-type">${escapeHtml(articleLabel(article.article_type))}</span>
         <h2>${escapeHtml(article.title)}</h2>
         <p>${escapeHtml(article.description)}</p>
         <div class="article-card-footer">
           <span>${escapeHtml(article.home_team)} vs ${escapeHtml(article.away_team)}</span>
-          <span>${escapeHtml(article.wordCount || "1000+")} words</span>
+          <span>${escapeHtml(article.primary_keyword)}</span>
+          <span>${escapeHtml(article.word_count || "1000+")} words</span>
         </div>
       </a>
     </article>
   `).join("");
-}
-
-async function loadArticles() {
-  if (!target) return;
-
-  try {
-    const response = await fetch("./articles/articles.json", { cache: "no-store" });
-
-    if (!response.ok) {
-      throw new Error("Article manifest missing");
-    }
-
-    articles = await response.json();
-    renderArticles();
-  } catch {
-    target.innerHTML = `
-      <article class="empty-state">
-        Articles exist after the SEO workflow runs and deploys the articles manifest.
-      </article>
-    `;
-  }
 }
 
 filterButtons.forEach((button) => {
@@ -75,4 +77,15 @@ filterButtons.forEach((button) => {
   });
 });
 
-loadArticles();
+async function init() {
+  if (!target) return;
+
+  try {
+    articles = await fetchArticles();
+    renderArticles();
+  } catch {
+    target.innerHTML = `<article class="empty-state">Article data unavailable.</article>`;
+  }
+}
+
+init();
