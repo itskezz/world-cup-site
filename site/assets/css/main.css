@@ -1688,3 +1688,238 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+/* Predictor card rebuild */
+.prediction-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.predictor-pro-card {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: #15100a;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: var(--shadow);
+}
+
+.predictor-card-head {
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,239,196,0.96)),
+    repeating-linear-gradient(90deg, rgba(0,107,63,0.07) 0 2px, transparent 2px 42px);
+  border-bottom: 1px solid var(--line);
+}
+
+.predictor-matchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.team-chip {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 950;
+}
+
+.team-chip-flag {
+  width: 42px;
+  min-width: 42px;
+  height: 30px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.16);
+  background: linear-gradient(135deg, var(--team-a), var(--team-b));
+  font-size: 0.66rem;
+  color: #111;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+}
+
+.team-chip-name {
+  overflow-wrap: anywhere;
+}
+
+.predictor-vs {
+  color: #7a6c58;
+  font-size: 0.75rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.predictor-scoreline {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: var(--radius);
+  padding: 12px;
+  background: #101712;
+  color: #fffaf0;
+}
+
+.predictor-scoreline span {
+  color: #f4d58d;
+  font-size: 0.75rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.predictor-scoreline strong {
+  font-size: 1.3rem;
+}
+
+.predictor-pick-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 104px;
+  gap: 18px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.predictor-pick-row h2 {
+  margin: 4px 0 8px;
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+
+.predictor-pick-row p {
+  margin: 0;
+  color: #5e5242;
+  line-height: 1.62;
+}
+
+.predictor-orb {
+  align-self: start;
+}
+
+.predictor-matrix {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.predictor-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.predictor-bar-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.predictor-bar-row span,
+.predictor-bar-row strong {
+  font-size: 0.86rem;
+  font-weight: 950;
+}
+
+.predictor-bar-row i {
+  grid-column: 1 / -1;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.1);
+}
+
+.predictor-bar-row b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--brand), var(--gold));
+}
+
+.predictor-bar-row.draw-row b {
+  background: linear-gradient(90deg, #64748b, #f4b942);
+}
+
+.predictor-insights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.predictor-insights div {
+  min-height: 112px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: #f8f2e6;
+  border: 1px solid var(--line);
+}
+
+.predictor-insights span,
+.predictor-market strong {
+  display: block;
+  color: var(--brand-dark);
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.predictor-insights p,
+.predictor-market p {
+  margin: 6px 0 0;
+  color: #625746;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.predictor-market {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  gap: 14px;
+  padding: 18px;
+}
+
+.predictor-status-box {
+  min-height: 88px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: var(--radius);
+  background: #101712;
+  color: #fffaf0;
+}
+
+.predictor-status-box span {
+  color: #f4d58d;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.predictor-status-box strong {
+  color: #fffaf0;
+  font-size: 1rem;
+}
+
+@media (max-width: 1050px) {
+  .prediction-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .predictor-matchup,
+  .predictor-pick-row,
+  .predictor-matrix,
+  .predictor-insights,
+  .predictor-market {
+    grid-template-columns: 1fr;
+  }
+
+  .predictor-vs {
+    text-align: left;
+  }
+}

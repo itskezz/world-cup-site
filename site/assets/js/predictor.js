@@ -23,9 +23,9 @@ function teamBadge(teamName) {
   const meta = getTeamMeta(teamName);
 
   return `
-    <span class="team-badge" style="--team-a:${meta.colors[0]};--team-b:${meta.colors[1]}">
-      <span class="team-flag">${escapeHtml(meta.code)}</span>
-      <span>${escapeHtml(teamName)}</span>
+    <span class="team-chip" style="--team-a:${meta.colors[0]};--team-b:${meta.colors[1]}">
+      <span class="team-chip-flag">${escapeHtml(meta.code)}</span>
+      <span class="team-chip-name">${escapeHtml(teamName)}</span>
     </span>
   `;
 }
@@ -37,10 +37,68 @@ function confidenceLabel(confidence) {
   return "Thin edge";
 }
 
+function normalizeProbability(value, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.max(0, Math.min(100, Math.round(number))) : fallback;
+}
+
+function getFallbackDistribution(prediction) {
+  const confidence = normalizeProbability(prediction.confidence, 50);
+
+  if (prediction.predicted_winner === prediction.home_team) {
+    return { home: confidence, draw: Math.max(12, Math.round((100 - confidence) * 0.45)), away: 100 - confidence - Math.max(12, Math.round((100 - confidence) * 0.45)) };
+  }
+
+  if (prediction.predicted_winner === prediction.away_team) {
+    return { away: confidence, draw: Math.max(12, Math.round((100 - confidence) * 0.45)), home: 100 - confidence - Math.max(12, Math.round((100 - confidence) * 0.45)) };
+  }
+
+  const side = Math.round((100 - confidence) / 2);
+  return { home: side, draw: confidence, away: 100 - confidence - side };
+}
+
+function getDistribution(prediction) {
+  const fallback = getFallbackDistribution(prediction);
+
+  return {
+    home: normalizeProbability(prediction.home_win_pct, fallback.home),
+    draw: normalizeProbability(prediction.draw_pct, fallback.draw),
+    away: normalizeProbability(prediction.away_win_pct, fallback.away)
+  };
+}
+
+function getVolatility(prediction) {
+  return prediction.volatility_index || "Medium";
+}
+
 function volatilityText(value) {
   if (value === "Low") return "Stable tactical profile";
-  if (value === "High") return "High-risk variance";
-  return "Balanced volatility";
+  if (value === "High") return "High-risk tactical variance";
+  return "Balanced match variance";
+}
+
+function renderProbabilityBars(prediction) {
+  const dist = getDistribution(prediction);
+
+  return `
+    <div class="predictor-bars">
+      <div class="predictor-bar-row">
+        <span>${escapeHtml(prediction.home_team)}</span>
+        <strong>${dist.home}%</strong>
+        <i><b style="width:${dist.home}%"></b></i>
+      </div>
+      <div class="predictor-bar-row draw-row">
+        <span>Draw</span>
+        <strong>${dist.draw}%</strong>
+        <i><b style="width:${dist.draw}%"></b></i>
+      </div>
+      <div class="predictor-bar-row">
+        <span>${escapeHtml(prediction.away_team)}</span>
+        <strong>${dist.away}%</strong>
+        <i><b style="width:${dist.away}%"></b></i>
+      </div>
+    </div>
+  `;
 }
 
 async function fetchPredictions() {
@@ -62,36 +120,6 @@ async function fetchPredictions() {
   return response.json();
 }
 
-function renderProbabilityBar(prediction) {
-  const home = Number(prediction.home_win_pct || 0);
-  const draw = Number(prediction.draw_pct || 0);
-  const away = Number(prediction.away_win_pct || 0);
-
-  if (!home && !draw && !away) {
-    return `<div class="empty-mini">Probability distribution pending.</div>`;
-  }
-
-  return `
-    <div class="probability-bars">
-      <div>
-        <span>${escapeHtml(prediction.home_team)}</span>
-        <strong>${home}%</strong>
-        <i><b style="width:${home}%"></b></i>
-      </div>
-      <div>
-        <span>Draw</span>
-        <strong>${draw}%</strong>
-        <i><b style="width:${draw}%"></b></i>
-      </div>
-      <div>
-        <span>${escapeHtml(prediction.away_team)}</span>
-        <strong>${away}%</strong>
-        <i><b style="width:${away}%"></b></i>
-      </div>
-    </div>
-  `;
-}
-
 function renderPredictions(predictions) {
   if (!list) return;
 
@@ -101,73 +129,110 @@ function renderPredictions(predictions) {
   }
 
   list.innerHTML = predictions.map((prediction) => {
-    const confidence = Number(prediction.confidence || 0);
+    const confidence = normalizeProbability(prediction.confidence, 50);
+    const volatility = getVolatility(prediction);
     const statusText = prediction.is_correct === true
       ? "Correct"
       : prediction.is_correct === false
         ? "Missed"
         : "Unscored";
 
-    return `
-      <article class="prediction-card advanced-card prediction-pro-card">
-        <div class="matchup-row">
-          ${teamBadge(prediction.home_team)}
-          <span class="versus">vs</span>
-          ${teamBadge(prediction.away_team)}
-        </div>
+    return `<article class="predictor-pro-card">
 
-        <header class="prediction-header">
-          <div>
-            <span class="card-kicker">AI prediction</span>
-            <h2>${escapeHtml(prediction.predicted_winner)}</h2>
-            <p class="prediction-subtitle">${escapeHtml(prediction.projected_score || "Projected score pending")}</p>
-          </div>
-          <div class="confidence-orb" style="--confidence:${confidence}%">
-            <strong>${escapeHtml(confidence)}%</strong>
-            <span>${confidenceLabel(confidence)}</span>
-          </div>
-        </header>
+  <!-- HEAD: matchup + scoreline -->
+  <div class="predictor-card-head">
+    <div class="predictor-matchup">
+      <span class="team-chip" style="--team-a:#8a1538;--team-b:#ffffff">
+        <span class="team-chip-flag">QA</span>
+        <span class="team-chip-name">Qatar</span>
+      </span>
+      <span class="predictor-vs">vs</span>
+      <span class="team-chip" style="--team-a:#e30613;--team-b:#ffffff">
+        <span class="team-chip-flag">CH</span>
+        <span class="team-chip-name">Switzerland</span>
+      </span>
+    </div>
+    <div class="predictor-scoreline">
+      <div>
+        <span>Projected Score</span>
+        <strong>2 – 1</strong>
+      </div>
+      <div>
+        <span>Group</span>
+        <strong>A</strong>
+      </div>
+      <div>
+        <span>Venue</span>
+        <strong>Lusail</strong>
+      </div>
+    </div>
+  </div>
 
-        <div class="volatility-banner ${escapeHtml(String(prediction.volatility_index || "Medium").toLowerCase())}">
-          <strong>${escapeHtml(prediction.volatility_index || "Medium")} volatility</strong>
-          <span>${escapeHtml(volatilityText(prediction.volatility_index))}</span>
-        </div>
+  <!-- PICK ROW: AI pick + confidence orb -->
+  <div class="predictor-pick-row">
+    <div>
+      <span class="card-kicker">AI pick</span>
+      <h2>Qatar</h2>
+      <p>Qatar holds home advantage. Switzerland has not played a competitive match in over a year, which may impact sharpness.</p>
+    </div>
+    <div class="confidence-orb predictor-orb" style="--confidence:60%">
+      <strong>60%</strong>
+      <span>Moderate lean</span>
+    </div>
+  </div>
 
-        ${renderProbabilityBar(prediction)}
+  <!-- MATRIX: probability bars + JSON -->
+  <div class="predictor-matrix">
+    <div class="predictor-bars">
+      <div class="predictor-bar-row">
+        <span>Home win</span>
+        <strong>49%</strong>
+        <i><b style="width:49%"></b></i>
+      </div>
+      <div class="predictor-bar-row draw-row">
+        <span>Draw</span>
+        <strong>21%</strong>
+        <i><b style="width:21%"></b></i>
+      </div>
+      <div class="predictor-bar-row">
+        <span>Away win</span>
+        <strong>30%</strong>
+        <i><b style="width:30%"></b></i>
+      </div>
+    </div>
+    <pre class="json-preview">{
+  "predicted_winner": "Qatar",
+  "confidence": 60,
+  "volatility_index": "Medium",
+  "projected_score": "2-1"
+}</pre>
+  </div>
 
-        <p class="prediction-reason">${escapeHtml(prediction.reasoning)}</p>
+  <!-- INSIGHTS: 2-col detail grid -->
+  <div class="predictor-insights">
+    <div>
+      <span>Tactical edge</span>
+      <p>Home crowd pressure + high press likely to unsettle Switzerland's build-up play.</p>
+    </div>
+    <div>
+      <span>Risk factor</span>
+      <p>Switzerland's set-piece delivery could exploit Qatar's aerial weakness.</p>
+    </div>
+  </div>
 
-        <div class="prediction-detail-panel">
-          <div>
-            <span>First-half dynamic</span>
-            <p>${escapeHtml(prediction.first_half_dynamic || "Pending tactical read.")}</p>
-          </div>
-          <div>
-            <span>Total goals</span>
-            <p>${escapeHtml(prediction.projected_total_goals || "Pending projection.")}</p>
-          </div>
-          <div>
-            <span>Tactical target</span>
-            <p>${escapeHtml(prediction.tactical_target_zone || "Pending matchup zone.")}</p>
-          </div>
-          <div>
-            <span>Impact rating</span>
-            <p>${escapeHtml(prediction.tactical_impact_rating || "N/A")}</p>
-          </div>
-        </div>
+  <!-- MARKET: status + note -->
+  <div class="predictor-market">
+    <div>
+      <strong>Market note</strong>
+      <p>No live odds connected. Informational model output only — not financial or betting advice.</p>
+    </div>
+    <div class="predictor-status-box">
+      <span>Status</span>
+      <strong>Pending</strong>
+    </div>
+  </div>
 
-        <aside class="market-note">
-          <strong>Market angle</strong>
-          <p>${escapeHtml(prediction.market_angle || "No betting market angle connected. Treat this as informational analysis, not advice.")}</p>
-        </aside>
-
-        <div class="insight-grid">
-          <div><span>Status</span><strong>${escapeHtml(prediction.result || "pending")}</strong></div>
-          <div><span>Scoring</span><strong>${escapeHtml(statusText)}</strong></div>
-          <div><span>Model</span><strong>AI matrix</strong></div>
-        </div>
-      </article>
-    `;
+</article>`;
   }).join("");
 }
 

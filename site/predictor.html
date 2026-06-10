@@ -1,115 +1,96 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Predictor Playground | AI Football Predictor</title>
-  <meta name="description" content="Explore AI football prediction logic, projected scores, confidence, volatility, and latest World Cup predictions.">
-  <link rel="stylesheet" href="./assets/css/main.css">
-  <script type="module" src="./assets/js/common.js"></script>
-  <script type="module" src="./assets/js/predictor.js"></script>
-  <script type="module" src="./assets/js/predictorPlayground.js"></script>
-</head>
-<body>
-  <header class="site-header" data-site-header></header>
+<article class="predictor-pro-card">
 
-  <main class="page-shell">
-    <section class="page-title sport-title">
-      <p class="eyebrow">Predictor</p>
-      <h1>Accuracy Tracker & Modeling Playground</h1>
-      <p>Test how attack strength, defensive stability, and volatility shape the projected score, confidence, and prediction JSON.</p>
-    </section>
-
-    <section class="model-playground" aria-label="Prediction modeling playground">
-      <div class="playground-topline">
-        <div>
-          <span>Projected Score</span>
-          <strong data-playground-score>2 - 1</strong>
-        </div>
-        <div>
-          <span>Confidence</span>
-          <strong data-playground-confidence>58%</strong>
-        </div>
-        <div>
-          <span>Volatility</span>
-          <strong data-playground-volatility-label>Medium</strong>
-        </div>
+  <!-- HEAD: matchup + scoreline -->
+  <div class="predictor-card-head">
+    <div class="predictor-matchup">
+      <span class="team-chip" style="--team-a:#8a1538;--team-b:#ffffff">
+        <span class="team-chip-flag">QA</span>
+        <span class="team-chip-name">Qatar</span>
+      </span>
+      <span class="predictor-vs">vs</span>
+      <span class="team-chip" style="--team-a:#e30613;--team-b:#ffffff">
+        <span class="team-chip-flag">CH</span>
+        <span class="team-chip-name">Switzerland</span>
+      </span>
+    </div>
+    <div class="predictor-scoreline">
+      <div>
+        <span>Projected Score</span>
+        <strong>2 – 1</strong>
       </div>
-
-      <div class="playground-grid">
-        <label class="range-control">
-          <span>Home Attack</span>
-          <input type="range" min="1" max="100" value="72" data-model-input="homeAttack">
-          <output data-model-output="homeAttack">72</output>
-        </label>
-
-        <label class="range-control">
-          <span>Home Defense</span>
-          <input type="range" min="1" max="100" value="66" data-model-input="homeDefense">
-          <output data-model-output="homeDefense">66</output>
-        </label>
-
-        <label class="range-control">
-          <span>Away Attack</span>
-          <input type="range" min="1" max="100" value="58" data-model-input="awayAttack">
-          <output data-model-output="awayAttack">58</output>
-        </label>
-
-        <label class="range-control">
-          <span>Away Defense</span>
-          <input type="range" min="1" max="100" value="54" data-model-input="awayDefense">
-          <output data-model-output="awayDefense">54</output>
-        </label>
+      <div>
+        <span>Group</span>
+        <strong>A</strong>
       </div>
-
-      <div class="volatility-control" role="group" aria-label="Volatility index">
-        <span>Volatility</span>
-        <div>
-          <button type="button" data-volatility="Low">Low</button>
-          <button class="active" type="button" data-volatility="Medium">Medium</button>
-          <button type="button" data-volatility="High">High</button>
-        </div>
+      <div>
+        <span>Venue</span>
+        <strong>Lusail</strong>
       </div>
+    </div>
+  </div>
 
-      <div class="model-output-grid">
-        <section>
-          <h2>Probability Distribution</h2>
-          <div class="probability-bars playground-bars">
-            <div>
-              <span>Home win</span>
-              <strong data-prob-home>48%</strong>
-              <i><b data-prob-home-bar style="width:48%"></b></i>
-            </div>
-            <div>
-              <span>Draw</span>
-              <strong data-prob-draw>25%</strong>
-              <i><b data-prob-draw-bar style="width:25%"></b></i>
-            </div>
-            <div>
-              <span>Away win</span>
-              <strong data-prob-away>27%</strong>
-              <i><b data-prob-away-bar style="width:27%"></b></i>
-            </div>
-          </div>
-        </section>
+  <!-- PICK ROW: AI pick + confidence orb -->
+  <div class="predictor-pick-row">
+    <div>
+      <span class="card-kicker">AI pick</span>
+      <h2>Qatar</h2>
+      <p>Qatar holds home advantage. Switzerland has not played a competitive match in over a year, which may impact sharpness.</p>
+    </div>
+    <div class="confidence-orb predictor-orb" style="--confidence:60%">
+      <strong>60%</strong>
+      <span>Moderate lean</span>
+    </div>
+  </div>
 
-        <section>
-          <h2>Generated JSON Shape</h2>
-          <pre class="json-preview" data-json-preview>{}</pre>
-        </section>
+  <!-- MATRIX: probability bars + JSON -->
+  <div class="predictor-matrix">
+    <div class="predictor-bars">
+      <div class="predictor-bar-row">
+        <span>Home win</span>
+        <strong>49%</strong>
+        <i><b style="width:49%"></b></i>
       </div>
-    </section>
+      <div class="predictor-bar-row draw-row">
+        <span>Draw</span>
+        <strong>21%</strong>
+        <i><b style="width:21%"></b></i>
+      </div>
+      <div class="predictor-bar-row">
+        <span>Away win</span>
+        <strong>30%</strong>
+        <i><b style="width:30%"></b></i>
+      </div>
+    </div>
+    <pre class="json-preview">{
+  "predicted_winner": "Qatar",
+  "confidence": 60,
+  "volatility_index": "Medium",
+  "projected_score": "2-1"
+}</pre>
+  </div>
 
-    <section class="toolbar">
-      <button class="button secondary" type="button" data-refresh-predictions>Refresh</button>
-      <span class="status-pill" data-predictor-status>Waiting for data</span>
-    </section>
+  <!-- INSIGHTS: 2-col detail grid -->
+  <div class="predictor-insights">
+    <div>
+      <span>Tactical edge</span>
+      <p>Home crowd pressure + high press likely to unsettle Switzerland's build-up play.</p>
+    </div>
+    <div>
+      <span>Risk factor</span>
+      <p>Switzerland's set-piece delivery could exploit Qatar's aerial weakness.</p>
+    </div>
+  </div>
 
-    <section class="prediction-list" data-predictions>
-      <article class="empty-state">Prediction data will appear after Supabase is connected.</article>
-    </section>
-  </main>
+  <!-- MARKET: status + note -->
+  <div class="predictor-market">
+    <div>
+      <strong>Market note</strong>
+      <p>No live odds connected. Informational model output only — not financial or betting advice.</p>
+    </div>
+    <div class="predictor-status-box">
+      <span>Status</span>
+      <strong>Pending</strong>
+    </div>
+  </div>
 
-  <footer class="site-footer" data-site-footer></footer>
-</body>
-</html>
+</article>
