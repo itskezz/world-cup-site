@@ -6,7 +6,7 @@ const tabs = document.querySelectorAll("[data-home-tab]");
 const panels = document.querySelectorAll("[data-home-panel]");
 const matchesTarget = document.querySelector("[data-home-matches]");
 const predictionsTarget = document.querySelector("[data-home-predictions]");
-const articlesTarget = document.querySelector("[data-home-articles]");
+const articlesTarget = document.querySelector("[data-article-list]");
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -164,7 +164,7 @@ async function loadArticles() {
     articlesTarget.innerHTML = articles.slice(0, 6).map((article) => `
       <article class="home-card article-card-rich">
         <span class="article-type">${escapeHtml(article.type)}</span>
-        <h3><a href="./articles/${escapeHtml(article.slug)}.html">${escapeHtml(article.title)}</a></h3>
+        <h3><a href="/articles/${escapeHtml(article.slug)}.html">${escapeHtml(article.title)}</a></h3>
         <p>${escapeHtml(article.description)}</p>
         <div class="meta-row">
           <span>${escapeHtml(article.primaryKeyword || "World Cup analysis")}</span>
