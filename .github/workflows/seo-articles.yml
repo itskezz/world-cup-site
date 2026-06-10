@@ -11,7 +11,11 @@ on:
       max_topics_per_match:
         description: "Topics per match"
         required: false
-        default: "4"
+        default: "2"
+      min_article_words:
+        description: "Minimum article words"
+        required: false
+        default: "750"
   schedule:
     - cron: "35 */8 * * *"
 
@@ -21,7 +25,7 @@ permissions:
 jobs:
   generate-seo-articles:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     defaults:
       run:
@@ -34,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "20"
 
       - name: Install dependencies
         run: npm install
@@ -43,7 +47,8 @@ jobs:
         run: npm run seo:articles
         env:
           MAX_MATCHES: ${{ github.event.inputs.max_matches || '4' }}
-          MAX_TOPICS_PER_MATCH: ${{ github.event.inputs.max_topics_per_match || '4' }}
+          MAX_TOPICS_PER_MATCH: ${{ github.event.inputs.max_topics_per_match || '2' }}
+          MIN_ARTICLE_WORDS: ${{ github.event.inputs.min_article_words || '750' }}
           SITE_BASE_URL: ${{ secrets.SITE_BASE_URL }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -55,4 +60,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Generate SEO article pages
-          file_pattern: site/analysis.html site/articles/*.html
+          file_pattern: site/analysis.html site/articles/*.html site/articles/articles.json
