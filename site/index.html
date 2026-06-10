@@ -4,30 +4,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Football Predictor</title>
-  <meta name="description" content="World Cup match predictions, live scores, standings, and AI-powered football analysis.">
+  <title>AI Football Predictor | World Cup Predictions, Live Scores & Analysis</title>
+  <meta name="description" content="AI-powered World Cup predictions, live match updates, predictor accuracy, group context, and SEO-rich football analysis.">
   <link rel="stylesheet" href="./assets/css/main.css">
   <script type="module" src="./assets/js/common.js"></script>
+  <script type="module" src="./assets/js/home.js"></script>
 </head>
 <body>
   <header class="site-header" data-site-header></header>
+
   <main class="page-shell">
-    <section class="hero">
-      <p class="eyebrow">World Cup 2026</p>
-      <h1>AI match predictions, live scores, and tournament analysis.</h1>
-      <p class="hero-copy">Follow fixtures, live match status, prediction accuracy, group standings, and match analysis from one lightweight static site.</p>
-      <div class="action-row">
-        <a class="button primary" href="./live.html">Live Matches</a>
-        <a class="button secondary" href="./predictor.html">Predictor</a>
+    <section class="hero home-hero">
+      <div>
+        <p class="eyebrow">World Cup 2026</p>
+        <h1>AI predictions, match blogs, live scores, and tournament intelligence.</h1>
+        <p class="hero-copy">Track upcoming fixtures, AI confidence, live match status, and search-focused football analysis built for fans looking for sharper context before kickoff.</p>
+        <div class="action-row">
+          <a class="button primary" href="./predictor.html">View Predictor</a>
+          <a class="button secondary" href="./analysis.html">Read Analysis</a>
+        </div>
       </div>
     </section>
+
+    <section class="home-tabs" aria-label="Homepage dashboard">
+      <div class="tab-list" role="tablist">
+        <button class="tab-button active" type="button" data-home-tab="matches">Matches</button>
+        <button class="tab-button" type="button" data-home-tab="predictions">Predictions</button>
+        <button class="tab-button" type="button" data-home-tab="articles">Articles</button>
+      </div>
+
+      <section class="tab-panel active" data-home-panel="matches">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Next Matches</h2>
+          </div>
+          <a href="./live.html">Full match center</a>
+        </div>
+        <div class="dashboard-grid" data-home-matches>
+          <article class="empty-state">Loading matches...</article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-home-panel="predictions">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">AI Picks</p>
+            <h2>Latest Predictions</h2>
+          </div>
+          <a href="./predictor.html">Predictor leaderboard</a>
+        </div>
+        <div class="dashboard-grid" data-home-predictions>
+          <article class="empty-state">Loading predictions...</article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-home-panel="articles">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Blogs</p>
+            <h2>Latest SEO Analysis</h2>
+          </div>
+          <a href="./analysis.html">All articles</a>
+        </div>
+        <div class="dashboard-grid article-dashboard" data-home-articles>
+          <article class="empty-state">Articles will appear here after the SEO workflow runs.</article>
+        </div>
+      </section>
+    </section>
+
     <section class="metric-grid">
-      <a class="metric-card" href="./live.html"><span>Live</span><strong>Scores & events</strong></a>
-      <a class="metric-card" href="./predictor.html"><span>Predictor</span><strong>Accuracy tracker</strong></a>
-      <a class="metric-card" href="./groups.html"><span>Groups</span><strong>Standings</strong></a>
-      <a class="metric-card" href="./analysis.html"><span>Analysis</span><strong>Previews & recaps</strong></a>
+      <a class="metric-card" href="./live.html"><span>Live</span><strong>Scores & match events</strong></a>
+      <a class="metric-card" href="./predictor.html"><span>Predictor</span><strong>AI confidence tracker</strong></a>
+      <a class="metric-card" href="./groups.html"><span>Groups</span><strong>Standings context</strong></a>
+      <a class="metric-card" href="./analysis.html"><span>Analysis</span><strong>Traffic-focused blogs</strong></a>
     </section>
   </main>
+
   <footer class="site-footer" data-site-footer></footer>
 </body>
 </html>

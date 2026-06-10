@@ -65,35 +65,46 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 </head>
 <body>
   <header class="site-header" data-site-header></header>
-  <main class="page-shell article-copy">
-    <p class="eyebrow">${escapeHtml(topic.type.replace("-", " "))}</p>
-    <h1>${escapeHtml(article.title)}</h1>
-    <p class="hero-copy">${escapeHtml(article.intro || article.description)}</p>
 
-    ${article.sections.map((section) => `
-      <section class="article-section">
-        <h2>${escapeHtml(section.heading)}</h2>
-        <p>${escapeHtml(section.body)}</p>
-      </section>
-    `).join("")}
+  <main class="page-shell article-layout">
+    <article class="article-copy">
+      <div class="article-hero-panel">
+        <p class="eyebrow">${escapeHtml(topic.type.replace("-", " "))}</p>
+        <h1>${escapeHtml(article.title)}</h1>
+        <p class="hero-copy">${escapeHtml(article.intro || article.description)}</p>
+        <div class="article-meta-strip">
+          <span>${escapeHtml(match.home_team)} vs ${escapeHtml(match.away_team)}</span>
+          <span>${escapeHtml(topic.primaryKeyword)}</span>
+          <span>${escapeHtml(article.wordCount)} words</span>
+        </div>
+      </div>
 
-    ${article.faqs.length ? `
-      <section class="article-section">
-        <h2>FAQ</h2>
-        ${article.faqs.map((faq) => `
-          <h3>${escapeHtml(faq.question)}</h3>
-          <p>${escapeHtml(faq.answer)}</p>
-        `).join("")}
-      </section>
-    ` : ""}
+      ${article.sections.map((section) => `
+        <section class="article-section">
+          <h2>${escapeHtml(section.heading)}</h2>
+          <p>${escapeHtml(section.body)}</p>
+        </section>
+      `).join("")}
 
-    <aside class="disclosure-box">
-      <strong>Responsible gambling note</strong>
-      <p>Predictions are informational only and are not financial advice. Only bet where legal and never risk more than you can afford to lose.</p>
-    </aside>
+      ${article.faqs.length ? `
+        <section class="article-section faq-block">
+          <h2>FAQ</h2>
+          ${article.faqs.map((faq) => `
+            <h3>${escapeHtml(faq.question)}</h3>
+            <p>${escapeHtml(faq.answer)}</p>
+          `).join("")}
+        </section>
+      ` : ""}
 
-    <p><a href="../analysis.html">Back to analysis</a></p>
+      <aside class="disclosure-box">
+        <strong>Responsible gambling note</strong>
+        <p>Predictions are informational only and are not financial advice. Only bet where legal and never risk more than you can afford to lose.</p>
+      </aside>
+
+      <p><a href="../analysis.html">Back to analysis</a></p>
+    </article>
   </main>
+
   <footer class="site-footer" data-site-footer></footer>
 </body>
 </html>`;
@@ -101,13 +112,14 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 
 export function renderAnalysisIndex(articles) {
   const cards = articles.map((item) => `
-    <article class="prediction-card">
+    <article class="prediction-card article-card-rich">
+      <span class="article-type">${escapeHtml(item.type)}</span>
       <header>
         <h2><a href="./articles/${escapeHtml(item.slug)}.html">${escapeHtml(item.title)}</a></h2>
       </header>
       <p>${escapeHtml(item.description)}</p>
       <div class="meta-row">
-        <span>${escapeHtml(item.type)}</span>
+        <span>${escapeHtml(item.primaryKeyword)}</span>
         <span>${escapeHtml(item.home_team)} vs ${escapeHtml(item.away_team)}</span>
       </div>
     </article>
@@ -119,7 +131,7 @@ export function renderAnalysisIndex(articles) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Analysis | AI Football Predictor</title>
-  <meta name="description" content="World Cup match previews, prediction analysis, betting angles, group-impact articles, and recaps.">
+  <meta name="description" content="World Cup match previews, prediction blogs, betting angles, upset watches, group-impact analysis, and recaps.">
   <link rel="stylesheet" href="./assets/css/main.css">
   <script type="module" src="./assets/js/common.js"></script>
 </head>
@@ -128,8 +140,8 @@ export function renderAnalysisIndex(articles) {
   <main class="page-shell">
     <section class="page-title">
       <p class="eyebrow">Analysis</p>
-      <h1>Match Previews & Prediction Blogs</h1>
-      <p>Search-focused previews, predictor blogs, upset watches, and group-impact analysis.</p>
+      <h1>Match Blogs & Prediction Analysis</h1>
+      <p>Search-focused football blogs covering predictions, betting angles, upset watch, and group-impact storylines.</p>
     </section>
     <section class="article-grid">
       ${cards || '<article class="empty-state">No articles published yet.</article>'}

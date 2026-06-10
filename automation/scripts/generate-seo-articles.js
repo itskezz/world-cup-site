@@ -63,17 +63,31 @@ async function main() {
         type: topic.type,
         title: article.title,
         description: article.description,
+        primaryKeyword: topic.primaryKeyword,
         home_team: match.home_team,
-        away_team: match.away_team
+        away_team: match.away_team,
+        kickoff_at: match.kickoff_at,
+        wordCount: article.wordCount
       });
 
-      logger.info("seo_article_created", { matchId: match.id, type: topic.type, slug });
+      logger.info("seo_article_created", {
+        matchId: match.id,
+        type: topic.type,
+        slug,
+        wordCount: article.wordCount
+      });
     }
   }
 
   await writeFile(
     new URL("../../site/analysis.html", import.meta.url),
     renderAnalysisIndex(articles),
+    "utf8"
+  );
+
+  await writeFile(
+    new URL("../../site/articles/articles.json", import.meta.url),
+    JSON.stringify(articles, null, 2),
     "utf8"
   );
 

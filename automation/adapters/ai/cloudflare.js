@@ -18,7 +18,7 @@ export async function generateWithCloudflare(prompt) {
         messages: [
           {
             role: "system",
-            content: "You are a careful football SEO editor. Return only valid JSON. No markdown."
+            content: "You are a careful football SEO editor. Return only valid JSON. No markdown. Do not invent facts."
           },
           {
             role: "user",
@@ -26,7 +26,7 @@ export async function generateWithCloudflare(prompt) {
           }
         ],
         temperature: 0.35,
-        max_tokens: 1400
+        max_tokens: 3200
       })
     }
   );
