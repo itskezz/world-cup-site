@@ -148,7 +148,7 @@ async function loadArticles() {
   if (!articlesTarget) return;
 
   try {
-    const response = await fetch("./articles/articles.json", { cache: "no-store" });
+    const response = await fetch("/articles/articles.json", { cache: "no-store" });
 
     if (!response.ok) {
       throw new Error("Articles manifest unavailable");

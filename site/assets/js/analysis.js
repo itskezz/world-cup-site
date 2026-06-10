@@ -36,7 +36,7 @@ async function fetchFromSupabase() {
 }
 
 async function fetchFromManifest() {
-  const response = await fetch("./articles/articles.json", { cache: "no-store" });
+  const response = await fetch("/articles/articles.json", { cache: "no-store" });
   if (!response.ok) return [];
 
   const rows = await response.json();
