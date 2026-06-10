@@ -55,6 +55,9 @@ async function fetchFromManifest() {
 }
 
 function renderArticles(type = "all") {
+  // Guard clause just in case the script runs on a page without the grid
+  if (!target) return; 
+
   const visible = type === "all"
     ? articles
     : articles.filter((article) => article.article_type === type);
@@ -97,4 +100,7 @@ async function init() {
   }
 }
 
-init();
+// Only initialize if the target grid actually exists on the page
+if (target) {
+  init();
+}
