@@ -1,4 +1,6 @@
 // site/assets/js/home.js
+console.log("ARTICLES.JS IS RUNNING");
+
 import { config } from "./config.js";
 import { getTeamMeta } from "./teamMeta.js";
 
