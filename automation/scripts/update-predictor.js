@@ -1,4 +1,3 @@
-// automation/scripts/update-predictor.js
 import { readFile } from "node:fs/promises";
 import { createSupabaseAdminClient } from "../adapters/db/supabaseAdmin.js";
 import { generatePredictionText } from "../adapters/ai/index.js";
@@ -8,10 +7,15 @@ import { sendNtfy } from "../adapters/notify/ntfy.js";
 
 const MODEL_NAME = process.env.CLOUDFLARE_AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
 
-function clampConfidence(value) {
+function clampNumber(value, min, max, fallback) {
   const number = Number(value);
-  if (!Number.isFinite(number)) return 50;
-  return Math.max(1, Math.min(100, number));
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(min, Math.min(max, number));
+}
+
+function normalizeVolatility(value) {
+  if (["Low", "Medium", "High"].includes(value)) return value;
+  return "Medium";
 }
 
 function buildPrompt(template, match) {
@@ -29,22 +33,42 @@ function validatePrediction(prediction, match) {
     throw new Error("Prediction reasoning is too short");
   }
 
+  const distribution = prediction.probabilistic_distribution || {};
+  const metadata = prediction.prediction_metadata || {};
+  const gameState = prediction.expected_game_state || {};
+  const mismatch = prediction.tactical_mismatch_exploit || {};
+  const market = prediction.market_angle || {};
+
   return {
     match_id: match.id,
     predicted_winner: prediction.predicted_winner,
-    confidence: clampConfidence(prediction.confidence),
-    reasoning: String(prediction.reasoning).slice(0, 800),
+    confidence: clampNumber(prediction.confidence, 1, 100, 50),
+    reasoning: String(prediction.reasoning).slice(0, 1000),
     result: "pending",
     is_correct: null,
     brier_score: null,
-    model_name: MODEL_NAME
+    model_name: MODEL_NAME,
+    home_win_pct: clampNumber(distribution.home_win_pct, 0, 100, null),
+    draw_pct: clampNumber(distribution.draw_pct, 0, 100, null),
+    away_win_pct: clampNumber(distribution.away_win_pct, 0, 100, null),
+    projected_score: String(metadata.projected_score || "").slice(0, 20),
+    projected_total_goals: String(gameState.projected_total_goals || "").slice(0, 120),
+    volatility_index: normalizeVolatility(metadata.volatility_index),
+    first_half_dynamic: String(gameState.first_half_dynamic || "").slice(0, 400),
+    tactical_target_zone: String(mismatch.target_zone || "").slice(0, 180),
+    tactical_impact_rating: String(mismatch.impact_rating || "").slice(0, 40),
+    market_angle: String(market.cautious_metric || "").slice(0, 500),
+    model_notes: {
+      simulated_outcome: String(metadata.simulated_outcome || "").slice(0, 400),
+      metrics_note: "Advanced xG/PPDA fields are model-derived estimates unless an external stats provider is connected."
+    }
   };
 }
 
 async function getUpcomingMatches(supabase) {
   const { data, error } = await supabase
     .from("matches")
-    .select("id,home_team,away_team,kickoff_at,status,venue,competition")
+    .select("id,home_team,away_team,kickoff_at,status,venue,competition,raw")
     .eq("status", "scheduled")
     .gte("kickoff_at", new Date().toISOString())
     .order("kickoff_at", { ascending: true })
@@ -95,7 +119,7 @@ async function main() {
   logger.info("predictor_update_success", { created });
 
   if (created > 0) {
-    await sendNtfy(`Created ${created} new AI predictions.`, "Predictor Updated");
+    await sendNtfy(`Created ${created} advanced AI predictions.`, "Predictor Updated");
   }
 }
 

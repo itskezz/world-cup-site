@@ -66,28 +66,30 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 <body>
   <header class="site-header" data-site-header></header>
 
-  <main class="page-shell article-layout">
-    <article class="article-copy">
-      <div class="article-hero-panel">
-        <p class="eyebrow">${escapeHtml(topic.type.replace("-", " "))}</p>
+  <main class="blog-page-shell">
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <span class="article-type">${escapeHtml(topic.type.replace("-", " "))}</span>
         <h1>${escapeHtml(article.title)}</h1>
-        <p class="hero-copy">${escapeHtml(article.intro || article.description)}</p>
-        <div class="article-meta-strip">
+        <p>${escapeHtml(article.intro || article.description)}</p>
+        <div class="blog-meta">
           <span>${escapeHtml(match.home_team)} vs ${escapeHtml(match.away_team)}</span>
           <span>${escapeHtml(topic.primaryKeyword)}</span>
-          <span>${escapeHtml(article.wordCount)} words</span>
+          <span>Updated ${escapeHtml(new Date().toLocaleDateString("en-US"))}</span>
         </div>
-      </div>
+      </header>
+
+      <div class="ad-slot light">Advertisement</div>
 
       ${article.sections.map((section) => `
-        <section class="article-section">
+        <section class="blog-section">
           <h2>${escapeHtml(section.heading)}</h2>
           <p>${escapeHtml(section.body)}</p>
         </section>
       `).join("")}
 
       ${article.faqs.length ? `
-        <section class="article-section faq-block">
+        <section class="blog-section faq-block">
           <h2>FAQ</h2>
           ${article.faqs.map((faq) => `
             <h3>${escapeHtml(faq.question)}</h3>
@@ -100,9 +102,34 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
         <strong>Responsible gambling note</strong>
         <p>Predictions are informational only and are not financial advice. Only bet where legal and never risk more than you can afford to lose.</p>
       </aside>
-
-      <p><a href="../analysis.html">Back to analysis</a></p>
     </article>
+
+    <aside class="blog-sidebar">
+      <section class="sidebar-card newsletter-card">
+        <span class="article-type">Instant update</span>
+        <h2>Get the next algorithmic prediction</h2>
+        <p>Receive the next match prediction 2 hours before kickoff, plus major live-score and article alerts.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Notify me</button>
+        </form>
+        <small>Email capture provider connects later.</small>
+      </section>
+
+      <section class="sidebar-card">
+        <h2>Trending / Top Picks</h2>
+        <ul class="top-picks-list">
+          <li><a href="../analysis.html">World Cup 2026 schedule guide</a></li>
+          <li><a href="../analysis.html">How to watch World Cup 2026 live online</a></li>
+          <li><a href="../analysis.html">World Cup live scores and updates</a></li>
+          <li><a href="../predictor.html">Latest AI match predictions</a></li>
+        </ul>
+      </section>
+
+      <section class="sidebar-card ad-card">
+        <span>Advertisement</span>
+      </section>
+    </aside>
   </main>
 
   <footer class="site-footer" data-site-footer></footer>

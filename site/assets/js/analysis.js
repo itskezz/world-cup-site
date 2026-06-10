@@ -72,7 +72,6 @@ function renderArticles(type = "all") {
         <p>${escapeHtml(article.description)}</p>
         <div class="article-card-footer">
           <span>${escapeHtml(article.primary_keyword)}</span>
-          <span>${escapeHtml(article.word_count || "1000+")} words</span>
         </div>
       </a>
     </article>
