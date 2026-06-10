@@ -9,7 +9,8 @@
     "seo:articles": "node scripts/generate-seo-articles.js",
     "score:predictions": "node scripts/score-predictions.js",
     "sitemap:generate": "node scripts/generate-sitemap.js",
-    "preview:generate": "node scripts/generate-preview.js"
+    "preview:generate": "node scripts/generate-preview.js",
+    "evergreen:articles": "node scripts/generate-evergreen-articles.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4"
