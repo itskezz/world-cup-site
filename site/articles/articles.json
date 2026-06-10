@@ -1,13 +1,182 @@
 [
   {
+    "slug": "curacao-vs-ivory-coast-prediction-537356",
+    "title": "Curaçao vs Ivory Coast Prediction: Expert Analysis for FIFA World Cup 2026",
+    "description": "Get the latest Curaçao vs Ivory Coast prediction, including a quick pick, confidence level, likely match script, and score prediction. Our expert analysis covers key matc",
+    "type": "analysis"
+  },
+  {
+    "slug": "curacao-vs-ivory-coast-upset-watch-537356",
+    "title": "Ivory Coast Upset Chances vs Curaçao: Can the Underdog Cause an Upset in the FIFA World Cup?",
+    "description": "Discover the latest analysis and expert predictions for Ivory Coast vs Curaçao in the FIFA World Cup. Get the inside scoop on the underdog&#039;s chances of causing an upset a",
+    "type": "analysis"
+  },
+  {
+    "slug": "czechia-vs-mexico-betting-tips-537331",
+    "title": "Czechia vs Mexico Betting Tips: A Tactical Breakdown for the FIFA World Cup",
+    "description": "Get expert analysis on the Czechia vs Mexico match, including best angles to watch, safer market considerations, risk factors, and what could change before kickoff. Learn",
+    "type": "analysis"
+  },
+  {
     "slug": "czechia-vs-mexico-live-score-updates-537331",
-    "type": "live-updates",
     "title": "Czechia vs Mexico Live Score Updates: Kickoff Time, Match Status, and Where to Follow",
     "description": "Get the latest live score updates, kickoff time, and match status for the Czechia vs Mexico FIFA World Cup match. Find out where to follow the game and what to watch live",
-    "primaryKeyword": "Czechia vs Mexico live score updates",
-    "home_team": "Czechia",
-    "away_team": "Mexico",
-    "kickoff_at": "2026-06-25T01:00:00+00:00",
-    "wordCount": 1279
+    "type": "live updates"
+  },
+  {
+    "slug": "czechia-vs-mexico-upset-watch-537331",
+    "title": "Mexico&#039;s Upset Chances vs Czechia: A Tactical Breakdown",
+    "description": "Discover the key factors that could give Mexico an edge over Czechia in their FIFA World Cup match, including tactical formations, recent form, and personnel match-ups.",
+    "type": "analysis"
+  },
+  {
+    "slug": "ecuador-vs-germany-prediction-537355",
+    "title": "Ecuador vs Germany Prediction: Expert Analysis, Key Matchups, and Score Forecast",
+    "description": "Get the inside scoop on Ecuador vs Germany, including our expert prediction, key matchups, and score forecast. Don&#039;t miss out on our in-depth analysis and betting advice.",
+    "type": "analysis"
+  },
+  {
+    "slug": "ecuador-vs-germany-upset-watch-537355",
+    "title": "Germany&#039;s Upset Chances vs Ecuador: A Tactical Breakdown",
+    "description": "Discover the key factors that could influence Germany&#039;s chances of an upset against Ecuador in the FIFA World Cup, including tactical formations, recent form, and more.",
+    "type": "analysis"
+  },
+  {
+    "slug": "france-vs-morocco-betting-tips-dev-france-morocco-2026",
+    "title": "France vs Morocco betting tips: Cautious angles and risk factors for World Cup 2026",
+    "description": "Get expert analysis on France vs Morocco betting tips, including safer market considerations and risk factors to watch before the World Cup 2026 match.",
+    "type": "analysis"
+  },
+  {
+    "slug": "france-vs-morocco-group-standings-impact-dev-france-morocco-2026",
+    "title": "France vs Morocco: Group Standings Impact and Qualification Picture",
+    "description": "The France vs Morocco match in the World Cup 2026 has significant implications for group standings and qualification.",
+    "type": "analysis"
+  },
+  {
+    "slug": "france-vs-morocco-prediction-dev-france-morocco-2026",
+    "title": "France vs Morocco prediction: World Cup 2026 preview",
+    "description": "France vs Morocco prediction, analysis, and betting angle for the World Cup 2026 match",
+    "type": "analysis"
+  },
+  {
+    "slug": "france-vs-morocco-upset-watch-dev-france-morocco-2026",
+    "title": "Morocco Upset Chances vs France: Can the Underdog Cause an Upset?",
+    "description": "Morocco&#039;s chances of upsetting France in the World Cup 2026, key factors to consider, and a prediction.",
+    "type": "analysis"
+  },
+  {
+    "slug": "how-to-watch-world-cup-2026-live-online",
+    "title": "Watch World Cup 2026 Live Online: Expert Guide",
+    "description": "Discover how to stream the World Cup 2026 live online with our comprehensive guide, covering official broadcasters, streaming services, and safety tips.",
+    "type": "how to-watch"
+  },
+  {
+    "slug": "japan-vs-germany-betting-tips-dev-japan-germany-2026",
+    "title": "Japan vs Germany betting tips: Cautious angles and risk factors",
+    "description": "Get expert analysis on Japan vs Germany World Cup 2026 match, including safer market considerations and risk factors to watch out for.",
+    "type": "analysis"
+  },
+  {
+    "slug": "japan-vs-germany-group-standings-impact-dev-japan-germany-2026",
+    "title": "Japan vs Germany: Group Standings Impact and Qualification Picture",
+    "description": "Understand how the result of Japan vs Germany affects World Cup 2026 group standings and qualification",
+    "type": "analysis"
+  },
+  {
+    "slug": "japan-vs-germany-prediction-dev-japan-germany-2026",
+    "title": "Japan vs Germany Prediction: Can Japan Cause an Upset in the World Cup 2026?",
+    "description": "Get the latest Japan vs Germany prediction, including a quick pick, reasons why Japan can win, why Germany can win, key matchup, and score prediction for the World Cup 20",
+    "type": "analysis"
+  },
+  {
+    "slug": "japan-vs-germany-upset-watch-dev-japan-germany-2026",
+    "title": "Germany&#039;s Upset Chances vs Japan: Can the Underdog Cause an Upset?",
+    "description": "Germany faces Japan in the World Cup 2026, but can the underdog cause an upset? We analyze the chances and provide a prediction.",
+    "type": "analysis"
+  },
+  {
+    "slug": "mexico-vs-south-africa-betting-tips-537327",
+    "title": "Mexico vs South Africa Betting Tips: Cautious Angles and Risk Factors",
+    "description": "Get expert insights on Mexico vs South Africa, including safer market considerations and risk factors to watch before placing a bet.",
+    "type": "analysis"
+  },
+  {
+    "slug": "mexico-vs-south-africa-group-standings-impact-537327",
+    "title": "Mexico vs South Africa: Group Standings Impact Explained",
+    "description": "Understand how the Mexico vs South Africa result affects FIFA World Cup qualification and group standings.",
+    "type": "analysis"
+  },
+  {
+    "slug": "mexico-vs-south-africa-prediction-537327",
+    "title": "Mexico vs South Africa Prediction: World Cup Match Preview",
+    "description": "Get the latest Mexico vs South Africa prediction, analysis, and betting tips for the FIFA World Cup match.",
+    "type": "analysis"
+  },
+  {
+    "slug": "mexico-vs-south-africa-upset-watch-537327",
+    "title": "South Africa Upset Chances vs Mexico: A Realistic Path to Victory?",
+    "description": "Can South Africa pull off a stunning upset against Mexico in the FIFA World Cup?",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-africa-vs-south-korea-betting-tips-537332",
+    "title": "South Africa vs South Korea Betting Tips: Expert Analysis for a Cautious Approach",
+    "description": "Get expert betting tips for South Africa vs South Korea, including safer market considerations, risk factors, and what to watch before kickoff. Learn how to approach this",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-africa-vs-south-korea-upset-watch-537332",
+    "title": "South Korea&#039;s Upset Chances vs South Africa: A Tactical Breakdown",
+    "description": "Discover the key factors that could influence South Korea&#039;s chances of upsetting South Africa in the FIFA World Cup. Get expert analysis on team formations, recent form, ",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-korea-vs-czechia-betting-tips-537328",
+    "title": "South Korea vs Czechia Betting Tips: Cautious Angles and Risk Factors",
+    "description": "Get informed about the FIFA World Cup match between South Korea and Czechia, including safer market considerations and risk factors to watch out for.",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-korea-vs-czechia-group-standings-impact-537328",
+    "title": "South Korea vs Czechia: Group Standings Impact and Qualification Picture",
+    "description": "The South Korea vs Czechia match is crucial for both teams&#039; FIFA World Cup qualification hopes. We break down the potential impact on group standings and the qualificatio",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-korea-vs-czechia-prediction-537328",
+    "title": "South Korea vs Czechia Prediction: Expert Analysis and Score Forecast",
+    "description": "Get the latest expert analysis and score forecast for South Korea vs Czechia in the FIFA World Cup. Read our detailed prediction and betting considerations.",
+    "type": "analysis"
+  },
+  {
+    "slug": "south-korea-vs-czechia-upset-watch-537328",
+    "title": "Czechia&#039;s Upset Chances vs South Korea: Can the Underdog Cause an Upset?",
+    "description": "Czechia faces South Korea in the FIFA World Cup, but can they pull off an upset? We analyze the underdog&#039;s path to victory and warning signs for the favorite.",
+    "type": "analysis"
+  },
+  {
+    "slug": "world-cup-2026-schedule",
+    "title": "World Cup 2026 Schedule Guide: Dates, Venues, and Teams",
+    "description": "Get the latest information on the 2026 World Cup schedule, including dates, venues, and participating teams.",
+    "type": "analysis"
+  },
+  {
+    "slug": "world-cup-2026-stadium-locations",
+    "title": "World Cup 2026 Stadium Locations: A Comprehensive Guide",
+    "description": "Discover the 16 host cities and stadiums for the 2026 FIFA World Cup, featuring state-of-the-art facilities and rich football history.",
+    "type": "stadiums"
+  },
+  {
+    "slug": "world-cup-2026-tickets",
+    "title": "World Cup 2026 Tickets Guide: Expert Insights and Historical Context",
+    "description": "Get expert advice on World Cup 2026 tickets, including history, host countries, and safety tips.",
+    "type": "analysis"
+  },
+  {
+    "slug": "world-cup-live-scores",
+    "title": "World Cup Live Scores and Updates: A Comprehensive Guide",
+    "description": "Get the latest World Cup live scores, news, and updates from the 2026 tournament in the United States, Canada, and Mexico.",
+    "type": "live updates"
   }
 ]
