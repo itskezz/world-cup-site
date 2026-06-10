@@ -1,4 +1,5 @@
 // automation/lib/renderHtml.js
+
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({
     "&": "&amp;",
@@ -9,18 +10,18 @@ function escapeHtml(value) {
   })[char]);
 }
 
-function renderFaqSchema(faqs) {
-  if (!faqs.length) return null;
+function renderFaqSchema(faqs = []) {
+  if (!faqs || !faqs.length) return null;
 
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
+    "mainEntity": faqs.map((faq) => ({
       "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
+      "name": faq.question,
+      "acceptedAnswer": {
         "@type": "Answer",
-        text: faq.answer
+        "text": faq.answer
       }
     }))
   };
@@ -28,27 +29,31 @@ function renderFaqSchema(faqs) {
 
 export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) {
   const canonical = `${siteBaseUrl}/articles/${slug}.html`;
+  
+  // Safe fallbacks for AI content blocks
+  const sections = article.sections || [];
+  const faqs = article.faqs || [];
 
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: article.title,
-    description: article.description,
-    mainEntityOfPage: canonical,
-    datePublished: new Date().toISOString(),
-    author: {
+    "headline": article.title,
+    "description": article.description,
+    "mainEntityOfPage": canonical,
+    "datePublished": new Date().toISOString(),
+    "author": {
       "@type": "Organization",
-      name: "AI Football Predictor"
+      "name": "AI Football Predictor"
     },
-    about: {
+    "about": {
       "@type": "SportsEvent",
-      name: `${match.home_team} vs ${match.away_team}`,
-      startDate: match.kickoff_at,
-      location: match.venue || "TBD"
+      "name": `${match.home_team} vs ${match.away_team}`,
+      "startDate": match.kickoff_at,
+      "location": match.venue || "TBD"
     }
   };
 
-  const faqSchema = renderFaqSchema(article.faqs);
+  const faqSchema = renderFaqSchema(faqs);
 
   return `<!doctype html>
 <html lang="en">
@@ -69,7 +74,7 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
   <main class="blog-page-shell">
     <article class="blog-post">
       <header class="blog-post-header">
-        <span class="article-type">${escapeHtml(topic.type.replace("-", " "))}</span>
+        <span class="article-type">${escapeHtml((topic.type || "analysis").replace("-", " "))}</span>
         <h1>${escapeHtml(article.title)}</h1>
         <p>${escapeHtml(article.intro || article.description)}</p>
         <div class="blog-meta">
@@ -81,17 +86,17 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 
       <div class="ad-slot light">Advertisement</div>
 
-      ${article.sections.map((section) => `
+      ${sections.map((section) => `
         <section class="blog-section">
           <h2>${escapeHtml(section.heading)}</h2>
           <p>${escapeHtml(section.body)}</p>
         </section>
       `).join("")}
 
-      ${article.faqs.length ? `
+      ${faqs.length ? `
         <section class="blog-section faq-block">
           <h2>FAQ</h2>
-          ${article.faqs.map((faq) => `
+          ${faqs.map((faq) => `
             <h3>${escapeHtml(faq.question)}</h3>
             <p>${escapeHtml(faq.answer)}</p>
           `).join("")}
@@ -137,16 +142,16 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 </html>`;
 }
 
-export function renderAnalysisIndex(articles) {
+export function renderAnalysisIndex(articles = []) {
   const cards = articles.map((item) => `
     <article class="prediction-card article-card-rich">
-      <span class="article-type">${escapeHtml(item.type)}</span>
+      <span class="article-type">${escapeHtml(item.type || "analysis")}</span>
       <header>
         <h2><a href="./articles/${escapeHtml(item.slug)}.html">${escapeHtml(item.title)}</a></h2>
       </header>
       <p>${escapeHtml(item.description)}</p>
       <div class="meta-row">
-        <span>${escapeHtml(item.primaryKeyword)}</span>
+        <span>${escapeHtml(item.primaryKeyword || "World Cup 2026")}</span>
         <span>${escapeHtml(item.home_team)} vs ${escapeHtml(item.away_team)}</span>
       </div>
     </article>
@@ -170,7 +175,8 @@ export function renderAnalysisIndex(articles) {
       <h1>Match Blogs & Prediction Analysis</h1>
       <p>Search-focused football blogs covering predictions, betting angles, upset watch, and group-impact storylines.</p>
     </section>
-    <section class="article-grid">
+    
+    <section class="article-grid" data-article-list>
       ${cards || '<article class="empty-state">No articles published yet.</article>'}
     </section>
   </main>

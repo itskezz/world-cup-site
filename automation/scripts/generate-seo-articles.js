@@ -101,6 +101,17 @@ async function main() {
   const siteBaseUrl = requireEnv("SITE_BASE_URL").replace(/\/$/, "");
   const template = await readFile(new URL("../prompts/seo-article.md", import.meta.url), "utf8");
   const articles = [];
+  
+  // FIX: Load existing articles into memory to prevent overwriting
+  const articlesJsonUrl = new URL("../../site/articles/articles.json", import.meta.url);
+  const existingArticlesMap = new Map();
+  try {
+    const existingData = await readFile(articlesJsonUrl, "utf8");
+    const parsedData = JSON.parse(existingData);
+    parsedData.forEach(article => existingArticlesMap.set(article.slug, article));
+  } catch (error) {
+    // If the file doesn't exist yet, we just start fresh
+  }
 
   logger.info("seo_articles_started", {
     maxMatches: MAX_MATCHES,
@@ -125,6 +136,12 @@ async function main() {
           type: topic.type,
           slug
         });
+        
+        // FIX: Re-inject the existing article data back into our active array
+        if (existingArticlesMap.has(slug)) {
+          articles.push(existingArticlesMap.get(slug));
+        }
+        
         continue;
       }
 
@@ -154,6 +171,7 @@ async function main() {
         if (articleError) {
           throw articleError;
         }
+        
         articles.push({
           slug,
           type: topic.type,
@@ -189,7 +207,7 @@ async function main() {
   );
 
   await writeFile(
-    new URL("../../site/articles/articles.json", import.meta.url),
+    articlesJsonUrl,
     JSON.stringify(articles, null, 2),
     "utf8"
   );
