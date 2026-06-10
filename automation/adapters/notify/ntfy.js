@@ -1,6 +1,7 @@
 // automation/adapters/notify/ntfy.js
 export async function sendNtfy(message, title = "World Cup Site") {
   const topic = process.env.NTFY_TOPIC;
+
   if (!topic) return;
 
   const headers = {
@@ -12,9 +13,13 @@ export async function sendNtfy(message, title = "World Cup Site") {
     headers.Authorization = `Bearer ${process.env.NTFY_TOKEN}`;
   }
 
-  await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
-    method: "POST",
-    headers,
-    body: message
-  });
+  try {
+    await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
+      method: "POST",
+      headers,
+      body: message
+    });
+  } catch {
+    // Notifications should never break the main automation.
+  }
 }

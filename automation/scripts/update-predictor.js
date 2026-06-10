@@ -4,16 +4,13 @@ import { createSupabaseAdminClient } from "../adapters/db/supabaseAdmin.js";
 import { generatePredictionText } from "../adapters/ai/index.js";
 import { parseJsonObject } from "../lib/safeJson.js";
 import { logger } from "../lib/logger.js";
+import { sendNtfy } from "../adapters/notify/ntfy.js";
 
 const MODEL_NAME = process.env.CLOUDFLARE_AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
 
 function clampConfidence(value) {
   const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return 50;
-  }
-
+  if (!Number.isFinite(number)) return 50;
   return Math.max(1, Math.min(100, number));
 }
 
@@ -54,7 +51,6 @@ async function getUpcomingMatches(supabase) {
     .limit(5);
 
   if (error) throw error;
-
   return data || [];
 }
 
@@ -66,7 +62,6 @@ async function hasPrediction(supabase, matchId) {
     .limit(1);
 
   if (error) throw error;
-
   return Boolean(data?.length);
 }
 
@@ -91,7 +86,6 @@ async function main() {
     const row = validatePrediction(parsed, match);
 
     const { error } = await supabase.from("predictions").insert(row);
-
     if (error) throw error;
 
     created += 1;
@@ -99,9 +93,14 @@ async function main() {
   }
 
   logger.info("predictor_update_success", { created });
+
+  if (created > 0) {
+    await sendNtfy(`Created ${created} new AI predictions.`, "Predictor Updated");
+  }
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   logger.error("predictor_update_failed", { error: error.message });
+  await sendNtfy(`Predictor update failed: ${error.message}`, "World Cup Site Error");
   process.exitCode = 1;
 });
