@@ -1,31 +1,115 @@
-<!-- site/predictor.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Predictor | AI Football Predictor</title>
-  <meta name="description" content="AI football prediction leaderboard with confidence scores and accuracy history.">
+  <title>AI Predictor Playground | AI Football Predictor</title>
+  <meta name="description" content="Explore AI football prediction logic, projected scores, confidence, volatility, and latest World Cup predictions.">
   <link rel="stylesheet" href="./assets/css/main.css">
   <script type="module" src="./assets/js/common.js"></script>
   <script type="module" src="./assets/js/predictor.js"></script>
+  <script type="module" src="./assets/js/predictorPlayground.js"></script>
 </head>
 <body>
   <header class="site-header" data-site-header></header>
+
   <main class="page-shell">
-    <section class="page-title">
+    <section class="page-title sport-title">
       <p class="eyebrow">Predictor</p>
-      <h1>AI Accuracy Tracker</h1>
-      <p>Every prediction is archived so the model can be judged by its record.</p>
+      <h1>Accuracy Tracker & Modeling Playground</h1>
+      <p>Test how attack strength, defensive stability, and volatility shape the projected score, confidence, and prediction JSON.</p>
     </section>
+
+    <section class="model-playground" aria-label="Prediction modeling playground">
+      <div class="playground-topline">
+        <div>
+          <span>Projected Score</span>
+          <strong data-playground-score>2 - 1</strong>
+        </div>
+        <div>
+          <span>Confidence</span>
+          <strong data-playground-confidence>58%</strong>
+        </div>
+        <div>
+          <span>Volatility</span>
+          <strong data-playground-volatility-label>Medium</strong>
+        </div>
+      </div>
+
+      <div class="playground-grid">
+        <label class="range-control">
+          <span>Home Attack</span>
+          <input type="range" min="1" max="100" value="72" data-model-input="homeAttack">
+          <output data-model-output="homeAttack">72</output>
+        </label>
+
+        <label class="range-control">
+          <span>Home Defense</span>
+          <input type="range" min="1" max="100" value="66" data-model-input="homeDefense">
+          <output data-model-output="homeDefense">66</output>
+        </label>
+
+        <label class="range-control">
+          <span>Away Attack</span>
+          <input type="range" min="1" max="100" value="58" data-model-input="awayAttack">
+          <output data-model-output="awayAttack">58</output>
+        </label>
+
+        <label class="range-control">
+          <span>Away Defense</span>
+          <input type="range" min="1" max="100" value="54" data-model-input="awayDefense">
+          <output data-model-output="awayDefense">54</output>
+        </label>
+      </div>
+
+      <div class="volatility-control" role="group" aria-label="Volatility index">
+        <span>Volatility</span>
+        <div>
+          <button type="button" data-volatility="Low">Low</button>
+          <button class="active" type="button" data-volatility="Medium">Medium</button>
+          <button type="button" data-volatility="High">High</button>
+        </div>
+      </div>
+
+      <div class="model-output-grid">
+        <section>
+          <h2>Probability Distribution</h2>
+          <div class="probability-bars playground-bars">
+            <div>
+              <span>Home win</span>
+              <strong data-prob-home>48%</strong>
+              <i><b data-prob-home-bar style="width:48%"></b></i>
+            </div>
+            <div>
+              <span>Draw</span>
+              <strong data-prob-draw>25%</strong>
+              <i><b data-prob-draw-bar style="width:25%"></b></i>
+            </div>
+            <div>
+              <span>Away win</span>
+              <strong data-prob-away>27%</strong>
+              <i><b data-prob-away-bar style="width:27%"></b></i>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Generated JSON Shape</h2>
+          <pre class="json-preview" data-json-preview>{}</pre>
+        </section>
+      </div>
+    </section>
+
     <section class="toolbar">
       <button class="button secondary" type="button" data-refresh-predictions>Refresh</button>
       <span class="status-pill" data-predictor-status>Waiting for data</span>
     </section>
+
     <section class="prediction-list" data-predictions>
       <article class="empty-state">Prediction data will appear after Supabase is connected.</article>
     </section>
   </main>
+
   <footer class="site-footer" data-site-footer></footer>
 </body>
 </html>
