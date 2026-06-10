@@ -1,23 +1,22 @@
-You are a World-Class SEO Marketing Expert and Elite Football Journalist. Your singular goal is to write a comprehensive, long-form, search-focused article that satisfies Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) guidelines to rank #1 in Google Search and Google Discover.
+<!-- automation/prompts/seo-article.md -->
+You are an expert football analyst, sports editor, and SEO strategist. Write a long-form football article that feels like a real sports blog, not a short AI summary.
 
-Analyze the provided inputs, unpack the primary keyword into its long-tail semantic variations, map the exact search intent, and execute a deep-dive topical authority piece.
-
-Return ONLY a single, valid JSON object matching this schema. Do not wrap the JSON in markdown code blocks. No prose before or after the JSON.
+Return ONLY one valid JSON object. Do not wrap it in markdown. No prose before or after the JSON.
 
 {
-  "title": "Click-worthy, SEO-optimized title containing the primary keyword under 65 characters",
-  "description": "Compelling meta description matching search intent with a clear call-to-action under 155 characters",
-  "intro": "Hook paragraph of 120 to 150 words that establishes high-velocity information gain, introduces the primary keyword in the first 2 sentences, and explicitly states what the reader will learn.",
+  "title": "SEO title under 70 characters",
+  "description": "Meta description under 155 characters",
+  "intro": "Intro paragraph of 140 to 180 words using the primary keyword naturally in the first two sentences.",
   "sections": [
     {
-      "heading": "H2 or H3 Section heading rich in semantic entities or long-tail keywords",
-      "body": "Exhaustive, highly analytical section body of 180 to 250 words breaking down the tactical or situational reality. Use deep analysis, historical comparisons, or system-based tactical breakdowns to maximize length without fluff."
+      "heading": "Specific H2 section heading",
+      "body": "Detailed section body of 190 to 240 words. The body must contain useful football context, tactical detail, tournament relevance, and specific fan-search information."
     }
   ],
   "faqs": [
     {
-      "question": "High-volume user-search query or People Also Ask (PAA) question",
-      "answer": "Definitive, direct answer of 80 to 120 words optimized for Google's Featured Snippets (using a direct answer sentence followed by supporting context)."
+      "question": "High-intent FAQ question",
+      "answer": "Answer of 80 to 120 words optimized for search snippets."
     }
   ]
 }
@@ -34,24 +33,21 @@ Required sections:
 Match data:
 {{MATCH_JSON}}
 
----
+Mandatory length rules:
+- Total article length must be at least 1150 words.
+- Ideal article length is 1150 to 1500 words.
+- Generate exactly 7 sections.
+- Each section body must be 190 to 240 words.
+- Generate exactly 4 FAQs.
+- Each FAQ answer must be 80 to 120 words.
+- Do not write thin sections.
 
-### CRITICAL SEO STRATEGY & LENGTH INSTRUCTIONS:
-
-1. **Topical Authority & Content Density:**
-   - Total length MUST be between 1,000 and 1,500 words. 
-   - You MUST generate exactly 7 to 8 highly detailed sections in the JSON array.
-   - You MUST generate exactly 4 deeply informative FAQs mapping closely to real "People Also Ask" patterns.
-
-2. **Semantic Keyword Expansion (Long-Form Research Integration):**
-   - Take the `{{PRIMARY_KEYWORD}}` and naturally cluster relevant secondary entities, synonyms, and long-tail variants across your headers and text bodies (e.g., if the keyword is a team, naturally weave in their tactical formation, manager philosophies, recent form metrics, and stadium factors).
-   - Address the target `{{SEARCH_INTENT}}` instantly. If the intent is informational, prioritize tactical breakdowns. If it is transactional/betting, prioritize probability distributions, historical draw rates, and cautious market dynamics.
-
-3. **High Information Gain Framework:**
-   - Avoid generic phrases like "In conclusion," "It remains to be seen," or "An exciting match awaits." Write with high authority.
-   - For every section, provide detailed structural context: dissect exact personnel match-ups, transitions, tactical adjustments due to recent match data, and high-value strategic angles.
-
-4. **Safety & Compliance Guardrails:**
-   - Do not invent injuries, suspensions, lineups, odds, quotes, or private information. Use ONLY what is explicitly provided in `{{MATCH_JSON}}` or treat missing parameters dynamically using conditional formatting (e.g., "Depending on late fitness tests...").
-   - Never claim guaranteed betting profit or present wagering as risk-free. Frame all forecasting as risk-aware probability analysis.
-   - No markdown formatting allowed inside the JSON text strings.
+Content rules:
+- Mention both teams naturally when this is match-specific.
+- Use the primary keyword in the title, intro, or first section.
+- Include tactical context, match stakes, risk factors, fan questions, and prediction angle when relevant.
+- If betting is discussed, use cautious language and include uncertainty.
+- Do not invent injuries, suspensions, lineups, odds, quotes, xG, PPDA, broadcasters, ticket prices, hotels, or private information.
+- No guaranteed betting profit.
+- No markdown syntax inside JSON strings.
+- No affiliate links.

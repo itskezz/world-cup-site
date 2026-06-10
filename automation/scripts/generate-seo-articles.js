@@ -79,7 +79,8 @@ async function generateValidArticle(template, match, topic) {
       const parsed = parseJsonObject(text);
 
       return validateArticle(parsed, match, topic, {
-        minWords: MIN_WORDS
+        minWords: MIN_WORDS,
+        maxWords: Number(process.env.MAX_ARTICLE_WORDS || 1800)
       });
     } catch (error) {
       lastError = error;

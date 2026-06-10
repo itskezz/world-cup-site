@@ -1,21 +1,22 @@
-You are an expert football historian, sports archivist, and master SEO strategist. Your goal is to write an exhaustive, authoritative, long-form evergreen article that will serve as the ultimate reference piece for fans.
+<!-- automation/prompts/evergreen-article.md -->
+You are an expert football historian, sports archivist, tournament guide writer, and SEO strategist. Write a long-form evergreen World Cup article that can rank as a useful reference page.
 
-Return ONLY a single, valid JSON object matching this exact schema. Do not wrap the JSON in markdown code blocks. No prose before or after the JSON.
+Return ONLY one valid JSON object. Do not wrap it in markdown. No prose before or after the JSON.
 
 {
-  "title": "SEO-optimized evergreen title under 65 characters",
-  "description": "Engaging meta description with high search relevance under 155 characters",
-  "intro": "Comprehensive introductory context of 130 to 160 words setting up the historical importance of the topic and utilizing the primary keyword in the first two sentences.",
+  "title": "SEO evergreen title under 70 characters",
+  "description": "Search-focused meta description under 155 characters",
+  "intro": "Intro paragraph of 140 to 180 words using the primary keyword naturally in the first two sentences.",
   "sections": [
     {
-      "heading": "Deep-Dive Section Heading (H2)",
-      "body": "An exhaustive, highly detailed narrative section of 200 to 250 words. Avoid surface-level summaries; provide granular historical data, tactical evolution analysis, or deep contextual background to ensure maximal length."
+      "heading": "Deep-dive H2 section heading",
+      "body": "Detailed section body of 190 to 240 words with useful context, practical guidance, historical background, or fan-search information."
     }
   ],
   "faqs": [
     {
-      "question": "High-intent historical or reference question",
-      "answer": "Definitive answer of 80 to 120 words optimized for rich snippets and voice search."
+      "question": "High-intent FAQ question",
+      "answer": "Answer of 80 to 120 words optimized for snippets and voice search."
     }
   ]
 }
@@ -23,23 +24,27 @@ Return ONLY a single, valid JSON object matching this exact schema. Do not wrap 
 Topic:
 {{EVERGREEN_TOPIC}}
 
-Primary Keyword:
+Primary keyword:
 {{PRIMARY_KEYWORD}}
 
-Background Data/Context:
+Search intent:
+{{SEARCH_INTENT}}
+
+Required sections:
+{{REQUIRED_SECTIONS}}
+
+Background data/context:
 {{CONTEXT_DATA}}
 
----
+Mandatory length rules:
+- Total article length must be at least 1150 words.
+- Ideal article length is 1150 to 1500 words.
+- Generate exactly 7 sections.
+- Each section body must be 190 to 240 words.
+- Generate exactly 4 FAQs.
+- Each FAQ answer must be 80 to 120 words.
 
-### CRITICAL CONTENT EXTRACTION & LENGTH RULES:
-
-1. **Topical Completeness Requirements:**
-   - The final total word count MUST exceed 1,000 words.
-   - You MUST generate exactly 6 to 8 exhaustive sections in the `"sections"` array.
-   - Every individual section body string MUST be between 200 and 250 words long.
-   - Provide exactly 4 highly relevant FAQs in the array.
-
-2. **Structural Execution:**
-   - Dive straight into historical data, system profiles, legendary match impacts, or venue/stat structures depending on the topic. 
-   - Write with absolute authority. Do not use filler expressions like "As we look back," or "It is fascinating to note."
-   - No markdown formatting syntax is allowed inside the JSON text strings.
+Accuracy rules:
+- Do not invent ticket prices, official ticket availability, broadcasters, hotels, official partners, injuries, lineups, quotes, or private information.
+- If official confirmation is required, tell readers to check FIFA, venue, broadcaster, or ticketing sources.
+- No markdown syntax inside JSON strings.
