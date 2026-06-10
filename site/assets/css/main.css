@@ -842,3 +842,219 @@ h1 {
     flex: 1 1 auto;
   }
 }
+
+/* Phase 7 visual upgrade */
+.site-header {
+  background:
+    linear-gradient(90deg, rgba(0,107,63,0.98), rgba(9,67,121,0.96), rgba(193,18,31,0.94)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0 8px, transparent 8px 16px);
+  border-bottom: 3px solid var(--gold);
+}
+
+.sport-nav {
+  min-height: 78px;
+}
+
+.sport-brand {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.sport-brand small {
+  display: block;
+  color: #ffe8a3;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.brand-ball {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 38%, #111 39% 42%, #fff 43%),
+    conic-gradient(from 0deg, #111, #fff, #111, #fff, #111);
+  color: transparent;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.24);
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.88);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: #17130d;
+  background: linear-gradient(135deg, #ffe08a, #f4b942);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.sport-title {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255,250,240,0.98), rgba(250,226,166,0.96)),
+    repeating-linear-gradient(90deg, transparent 0 38px, rgba(0,107,63,0.06) 38px 40px);
+}
+
+.sport-title::after {
+  content: "";
+  position: absolute;
+  right: -80px;
+  bottom: -80px;
+  width: 220px;
+  height: 220px;
+  border: 18px solid rgba(0,107,63,0.12);
+  border-radius: 50%;
+}
+
+.ad-slot {
+  min-height: 96px;
+  margin: 24px 0;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(255,255,255,0.36);
+  border-radius: var(--radius);
+  background: rgba(255,250,240,0.12);
+  color: rgba(255,250,240,0.72);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.article-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.article-filters .tab-button {
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  background: rgba(255,250,240,0.14);
+}
+
+.article-filters .tab-button.active,
+.article-filters .tab-button:hover {
+  background: var(--gold);
+  color: #17130d;
+}
+
+.article-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.article-list-card {
+  min-height: 280px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(255,250,240,0.98), rgba(246,234,212,0.98));
+  box-shadow: var(--shadow);
+}
+
+.article-card-link {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  text-decoration: none;
+  position: relative;
+}
+
+.article-card-link::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: linear-gradient(90deg, var(--brand), var(--gold), var(--red), var(--blue));
+}
+
+.article-list-card h2 {
+  margin: 18px 0 10px;
+  font-size: 1.35rem;
+  line-height: 1.18;
+}
+
+.article-list-card p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.article-card-footer {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 860px);
+  justify-content: center;
+}
+
+.article-hero-panel {
+  padding: 28px;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255,250,240,0.99), rgba(250,226,166,0.97));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+.article-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.article-meta-strip span {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 10px;
+  background: rgba(0,107,63,0.1);
+  color: var(--brand-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.article-copy {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.article-section,
+.faq-block,
+.disclosure-box {
+  padding: 24px;
+  border-radius: var(--radius);
+  background: rgba(255,250,240,0.96);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.12);
+}
+
+.article-section h2 {
+  color: #0b3d2a;
+}
+
+@media (max-width: 900px) {
+  .article-list {
+    grid-template-columns: 1fr;
+  }
+}
