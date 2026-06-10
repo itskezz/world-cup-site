@@ -145,34 +145,42 @@ async function loadPredictions() {
 }
 
 async function loadArticles() {
-  if (!articlesTarget) return;
+  const articlesTarget = document.querySelector("[data-article-list]");
+  
+  if (!articlesTarget) {
+    console.error("DEBUG: Could not find [data-article-list] in the DOM!");
+    return;
+  }
 
   try {
     const response = await fetch("/articles/articles.json", { cache: "no-store" });
-
+    
     if (!response.ok) {
-      throw new Error("Articles manifest unavailable");
+      throw new Error(`Articles manifest returned status ${response.status}`);
     }
 
     const articles = await response.json();
+    console.log("DEBUG: Articles loaded successfully:", articles);
 
-    if (!articles.length) {
-      articlesTarget.innerHTML = `<article class="empty-state">Run the SEO article workflow to populate article cards.</article>`;
+    if (!Array.isArray(articles) || articles.length === 0) {
+      console.warn("DEBUG: Articles array is empty or invalid:", articles);
+      articlesTarget.innerHTML = `<article class="empty-state">No articles found.</article>`;
       return;
     }
 
     articlesTarget.innerHTML = articles.slice(0, 6).map((article) => `
       <article class="home-card article-card-rich">
-        <span class="article-type">${escapeHtml(article.type)}</span>
+        <span class="article-type">${escapeHtml(article.type || "Analysis")}</span>
         <h3><a href="/articles/${escapeHtml(article.slug)}.html">${escapeHtml(article.title)}</a></h3>
         <p>${escapeHtml(article.description)}</p>
-        <div class="meta-row">
-          <span>${escapeHtml(article.primaryKeyword || "World Cup analysis")}</span>
-        </div>
       </article>
     `).join("");
-  } catch {
-    articlesTarget.innerHTML = `<article class="empty-state">Article manifest unavailable.</article>`;
+    
+    console.log("DEBUG: Articles injected into DOM.");
+
+  } catch (err) {
+    console.error("DEBUG: Failed to load articles:", err);
+    articlesTarget.innerHTML = `<article class="empty-state">Error loading articles. Check console.</article>`;
   }
 }
 
