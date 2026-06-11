@@ -29,8 +29,7 @@ function renderFaqSchema(faqs = []) {
 
 export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) {
   const canonical = `${siteBaseUrl}/articles/${slug}.html`;
-
-  // Safe fallbacks for AI content blocks
+  
   const sections = article.sections || [];
   const faqs = article.faqs || [];
 
@@ -68,53 +67,62 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
   <script type="application/ld+json">${JSON.stringify(articleSchema)}</script>
   ${faqSchema ? `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>` : ""}
 </head>
-<body>
+<body class="blog-body-bg">
   <header class="site-header" data-site-header></header>
 
   <main class="blog-page-shell">
-    <article class="blog-post">
-      <header class="blog-post-header">
-        <span class="article-type">${escapeHtml((topic.type || "analysis").replace("-", " "))}</span>
-        <h1>${escapeHtml(article.title)}</h1>
-        <p>${escapeHtml(article.intro || article.description)}</p>
-        <div class="blog-meta">
-          <span>${escapeHtml(match.home_team)} vs ${escapeHtml(match.away_team)}</span>
-          <span>${escapeHtml(topic.primaryKeyword)}</span>
-          <span>Updated ${escapeHtml(new Date().toLocaleDateString("en-US"))}</span>
-        </div>
-      </header>
+    <div class="bg-white-canvas">
+      <article class="blog-post">
+        <header class="blog-post-header">
+          <span class="article-type-badge">${escapeHtml((topic.type || "analysis").replace("-", " "))}</span>
+          <h1>${escapeHtml(article.title)}</h1>
+          <p class="blog-lead-intro">${escapeHtml(article.intro || article.description)}</p>
+          <div class="blog-meta">
+            <span><strong>Matchup:</strong> ${escapeHtml(match.home_team)} vs ${escapeHtml(match.away_team)}</span>
+            <span><strong>Focus:</strong> ${escapeHtml(topic.primaryKeyword)}</span>
+            <span><strong>Updated:</strong> ${escapeHtml(new Date().toLocaleDateString("en-US", {month:'short', day:'numeric', year:'numeric'}))}</span>
+          </div>
+        </header>
 
-      <div class="ad-slot light">Advertisement</div>
+        <div class="ad-slot light">Advertisement</div>
 
-      ${sections.map((section, index) => `
-  <section class="blog-section">
-    <h2>${escapeHtml(section.heading)}</h2>
-    <p>${escapeHtml(section.body)}</p>
-    
-    ${index === 1 ? `
-      <figure class="blog-image">
-        <img src="https://source.unsplash.com/800x400/?soccer,football" alt="${match.home_team} vs ${match.away_team}">
-        <figcaption>Analysis of ${match.home_team} match tactics.</figcaption>
-      </figure>
-    ` : ""}
-  </section>
-`).join("")}
+        ${sections.map((section, index) => `
+          <section class="blog-section">
+            <h2>${escapeHtml(section.heading)}</h2>
+            <p>${escapeHtml(section.body)}</p>
+          </section>
+          
+          ${index === 0 ? `
+            <div class="blog-inline-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80" alt="Football Stadium Pitch" class="blog-featured-media">
+            </div>
+          ` : ""}
 
-      ${faqs.length ? `
-        <section class="blog-section faq-block">
-          <h2>FAQ</h2>
-          ${faqs.map((faq) => `
-            <h3>${escapeHtml(faq.question)}</h3>
-            <p>${escapeHtml(faq.answer)}</p>
-          `).join("")}
-        </section>
-      ` : ""}
+          ${index === 1 ? `
+            <div class="blog-inline-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80" alt="Football match action tactical view" class="blog-featured-media">
+            </div>
+          ` : ""}
+        `).join("")}
 
-      <aside class="disclosure-box">
-        <strong>Responsible gambling note</strong>
-        <p>Predictions are informational only and are not financial advice. Only bet where legal and never risk more than you can afford to lose.</p>
-      </aside>
-    </article>
+        ${faqs.length ? `
+          <section class="blog-section faq-block">
+            <h2>Frequently Asked Questions</h2>
+            <dl class="faq-accordion">
+              ${faqs.map((faq) => `
+                <dt><h3>${escapeHtml(faq.question)}</h3></dt>
+                <dd><p>${escapeHtml(faq.answer)}</p></dd>
+              `).join("")}
+            </dl>
+          </section>
+        ` : ""}
+
+        <aside class="disclosure-box">
+          <strong>Responsible Gambling Note</strong>
+          <p>Predictions are informational only and generated using advanced analytics models. This is not financial advice. Only wager what you can afford to lose.</p>
+        </aside>
+      </article>
+    </div>
 
     <aside class="blog-sidebar">
       <section class="sidebar-card newsletter-card">
@@ -129,17 +137,13 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
       </section>
 
       <section class="sidebar-card">
-        <h2>Trending / Top Picks</h2>
+        <h2>Trending Analysis</h2>
         <ul class="top-picks-list">
-          <li><a href="../analysis.html">World Cup 2026 schedule guide</a></li>
-          <li><a href="../analysis.html">How to watch World Cup 2026 live online</a></li>
-          <li><a href="../analysis.html">World Cup live scores and updates</a></li>
-          <li><a href="../predictor.html">Latest AI match predictions</a></li>
+          <li><a href="../analysis.html">World Cup Schedule Guide</a></li>
+          <li><a href="../analysis.html">How to Watch World Cup Live Online</a></li>
+          <li><a href="../analysis.html">World Cup Live Scores & Updates</a></li>
+          <li><a href="../predictor.html">Latest AI Match Predictions</a></li>
         </ul>
-      </section>
-
-      <section class="sidebar-card ad-card">
-        <span>Advertisement</span>
       </section>
     </aside>
   </main>

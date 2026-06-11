@@ -1,8 +1,11 @@
 import { config } from "./config.js";
+import { getTeamMeta } from "./teamMeta.js";
 
-const target = document.querySelector("[data-article-list]");
-const filterButtons = document.querySelectorAll("[data-article-filter]");
-let articles = [];
+const tabs = document.querySelectorAll("[data-home-tab]");
+const panels = document.querySelectorAll("[data-home-panel]");
+const matchesTarget = document.querySelector("[data-home-matches]");
+const predictionsTarget = document.querySelector("[data-home-predictions]");
+const articlesTarget = document.querySelector("[data-home-articles]");
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -14,15 +17,33 @@ function escapeHtml(value) {
   })[char]);
 }
 
-function label(type) {
-  return String(type || "analysis").replaceAll("-", " ");
+function formatDate(value) {
+  if (!value) return "TBD";
+  return new Date(value).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
 }
 
-async function fetchFromSupabase() {
-  const url = new URL("/rest/v1/public_generated_articles", config.supabaseUrl);
-  url.searchParams.set("select", "*");
-  url.searchParams.set("order", "created_at.desc");
-  url.searchParams.set("limit", "200");
+function teamBadge(teamName) {
+  const meta = getTeamMeta(teamName);
+  return `
+    <span class="team-badge" style="--team-a:${meta.colors[0]};--team-b:${meta.colors[1]}">
+      <span class="team-flag">${escapeHtml(meta.code)}</span>
+      <span>${escapeHtml(teamName)}</span>
+    </span>
+  `;
+}
+
+async function supabaseRead(view, params = {}) {
+  if (!config.supabaseUrl.includes("supabase.co")) return [];
+
+  const url = new URL(`/rest/v1/${view}`, config.supabaseUrl);
+  for (const [key, value] of Object.entries(params)) {
+    url.searchParams.set(key, value);
+  }
 
   const response = await fetch(url, {
     headers: {
@@ -31,76 +52,113 @@ async function fetchFromSupabase() {
     }
   });
 
-  if (!response.ok) throw new Error(`Article fetch failed: ${response.status}`);
+  if (!response.ok) throw new Error(`Supabase read failed: ${response.status}`);
   return response.json();
 }
 
-async function fetchFromManifest() {
-  const response = await fetch("/articles/articles.json", { cache: "no-store" });
-  if (!response.ok) return [];
-
-  const rows = await response.json();
-
-  return rows.map((item) => ({
-    slug: item.slug,
-    url_path: `articles/${item.slug}.html`,
-    title: item.title,
-    description: item.description,
-    article_type: item.article_type || item.type || "analysis",
-    primary_keyword: item.primaryKeyword || item.primary_keyword || "World Cup 2026",
-    home_team: item.home_team || "World Cup",
-    away_team: item.away_team || "2026",
-    word_count: item.wordCount || item.word_count || 0
-  }));
-}
-
-function renderArticles(type = "all") {
-  // Guard clause just in case the script runs on a page without the grid
-  if (!target) return; 
-
-  const visible = type === "all"
-    ? articles
-    : articles.filter((article) => article.article_type === type);
-
-  if (!visible.length) {
-    target.innerHTML = `<article class="empty-state">No articles found for this category yet.</article>`;
-    return;
-  }
-
-  target.innerHTML = visible.map((article) => `
-    <article class="article-list-card">
-      <a class="article-card-link" href="./${escapeHtml(article.url_path)}">
-        <span class="article-type">${escapeHtml(label(article.article_type))}</span>
-        <h2>${escapeHtml(article.title)}</h2>
-        <p>${escapeHtml(article.description)}</p>
-        <div class="article-card-footer">
-          <span>${escapeHtml(article.primary_keyword)}</span>
-        </div>
-      </a>
-    </article>
-  `).join("");
-}
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const type = button.dataset.articleFilter;
-    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
-    renderArticles(type);
+function setupTabs() {
+  tabs.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selected = button.dataset.homeTab;
+      tabs.forEach((item) => item.classList.toggle("active", item === button));
+      panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.homePanel === selected));
+    });
   });
-});
+}
 
-async function init() {
+async function loadMatches() {
+  if (!matchesTarget) return;
   try {
-    articles = await fetchFromSupabase();
-    if (!articles.length) articles = await fetchFromManifest();
-    renderArticles();
+    const matches = await supabaseRead("public_live_matches", {
+      select: "*",
+      order: "kickoff_at.asc",
+      limit: "6"
+    });
+    if (!matches.length) {
+      matchesTarget.innerHTML = `<article class="empty-state">No match data available yet.</article>`;
+      return;
+    }
+    matchesTarget.innerHTML = matches.map((match) => `
+      <article class="home-card">
+        <div class="matchup-row compact">
+          ${teamBadge(match.home_team)}
+          <span class="versus">vs</span>
+          ${teamBadge(match.away_team)}
+        </div>
+        <div class="home-card-main">
+          <strong>${match.home_score ?? "-"} - ${match.away_score ?? "-"}</strong>
+          <span>${escapeHtml(match.status)}</span>
+        </div>
+        <div class="meta-row">
+          <span>${escapeHtml(formatDate(match.kickoff_at))}</span>
+          <span>${escapeHtml(match.venue || "Venue TBD")}</span>
+        </div>
+      </article>
+    `).join("");
   } catch {
-    articles = await fetchFromManifest();
-    renderArticles();
+    matchesTarget.innerHTML = `<article class="empty-state">Match data unavailable.</article>`;
   }
 }
 
-// Only initialize if the target grid actually exists on the page
-if (target) {
-  init();
+async function loadPredictions() {
+  if (!predictionsTarget) return;
+  try {
+    const predictions = await supabaseRead("public_predictions", {
+      select: "*",
+      order: "created_at.desc",
+      limit: "6"
+    });
+    if (!predictions.length) {
+      predictionsTarget.innerHTML = `<article class="empty-state">No predictions available yet.</article>`;
+      return;
+    }
+    predictionsTarget.innerHTML = predictions.map((prediction) => `
+      <article class="home-card">
+        <div class="matchup-row compact">
+          ${teamBadge(prediction.home_team)}
+          <span class="versus">vs</span>
+          ${teamBadge(prediction.away_team)}
+        </div>
+        <div class="home-card-main">
+          <strong>${escapeHtml(prediction.predicted_winner)}</strong>
+          <span>${escapeHtml(prediction.confidence)}% confidence</span>
+        </div>
+        <p>${escapeHtml(prediction.reasoning)}</p>
+      </article>
+    `).join("");
+  } catch {
+    predictionsTarget.innerHTML = `<article class="empty-state">Prediction data unavailable.</article>`;
+  }
 }
+
+async function loadArticles() {
+  if (!articlesTarget) return;
+  try {
+    const response = await fetch("/articles/articles.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("Articles manifest unavailable");
+
+    const articles = await response.json();
+    if (!articles.length) {
+      articlesTarget.innerHTML = `<article class="empty-state">Run the SEO article workflow to populate article cards.</article>`;
+      return;
+    }
+
+    articlesTarget.innerHTML = articles.slice(0, 6).map((article) => `
+      <article class="home-card article-card-rich">
+        <span class="article-type">${escapeHtml(article.type)}</span>
+        <h3><a href="/articles/${escapeHtml(article.slug)}.html">${escapeHtml(article.title)}</a></h3>
+        <p>${escapeHtml(article.description)}</p>
+        <div class="meta-row">
+          <span>${escapeHtml(article.primaryKeyword || "World Cup analysis")}</span>
+        </div>
+      </article>
+    `).join("");
+  } catch {
+    articlesTarget.innerHTML = `<article class="empty-state">Article manifest unavailable.</article>`;
+  }
+}
+
+setupTabs();
+loadMatches();
+loadPredictions();
+loadArticles();
