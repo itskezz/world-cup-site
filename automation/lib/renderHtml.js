@@ -29,7 +29,7 @@ function renderFaqSchema(faqs = []) {
 
 export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) {
   const canonical = `${siteBaseUrl}/articles/${slug}.html`;
-  
+
   // Safe fallbacks for AI content blocks
   const sections = article.sections || [];
   const faqs = article.faqs || [];
@@ -86,12 +86,19 @@ export function renderArticlePage({ article, match, topic, slug, siteBaseUrl }) 
 
       <div class="ad-slot light">Advertisement</div>
 
-      ${sections.map((section) => `
-        <section class="blog-section">
-          <h2>${escapeHtml(section.heading)}</h2>
-          <p>${escapeHtml(section.body)}</p>
-        </section>
-      `).join("")}
+      ${sections.map((section, index) => `
+  <section class="blog-section">
+    <h2>${escapeHtml(section.heading)}</h2>
+    <p>${escapeHtml(section.body)}</p>
+    
+    ${index === 1 ? `
+      <figure class="blog-image">
+        <img src="https://source.unsplash.com/800x400/?soccer,football" alt="${match.home_team} vs ${match.away_team}">
+        <figcaption>Analysis of ${match.home_team} match tactics.</figcaption>
+      </figure>
+    ` : ""}
+  </section>
+`).join("")}
 
       ${faqs.length ? `
         <section class="blog-section faq-block">

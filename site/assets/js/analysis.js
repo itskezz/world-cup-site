@@ -89,10 +89,17 @@ filterButtons.forEach((button) => {
 
 async function init() {
   try {
-    articles = await fetchFromSupabase();
-    if (!articles.length) articles = await fetchFromManifest();
+    // Combine both sources
+    const supabaseData = await fetchFromSupabase();
+    const manifestData = await fetchFromManifest();
+    
+    // Merge them and remove duplicates by slug
+    const combined = [...supabaseData, ...manifestData];
+    articles = [...new Map(combined.map(item => [item.slug, item])).values()];
+    
     renderArticles();
-  } catch {
+  } catch (err) {
+    console.error("Init error:", err);
     articles = await fetchFromManifest();
     renderArticles();
   }
