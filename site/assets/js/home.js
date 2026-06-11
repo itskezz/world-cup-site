@@ -36,7 +36,7 @@ async function fetchFromSupabase() {
 }
 
 async function fetchFromManifest() {
-  const response = await fetch("./articles/articles.json", { cache: "no-store" });
+  const response = await fetch("/articles/articles.json", { cache: "no-store" });
   if (!response.ok) return [];
 
   const rows = await response.json();
@@ -55,6 +55,9 @@ async function fetchFromManifest() {
 }
 
 function renderArticles(type = "all") {
+  // Guard clause just in case the script runs on a page without the grid
+  if (!target) return; 
+
   const visible = type === "all"
     ? articles
     : articles.filter((article) => article.article_type === type);
@@ -72,7 +75,6 @@ function renderArticles(type = "all") {
         <p>${escapeHtml(article.description)}</p>
         <div class="article-card-footer">
           <span>${escapeHtml(article.primary_keyword)}</span>
-          <span>${escapeHtml(article.word_count || "1000+")} words</span>
         </div>
       </a>
     </article>
@@ -98,4 +100,7 @@ async function init() {
   }
 }
 
-init();
+// Only initialize if the target grid actually exists on the page
+if (target) {
+  init();
+}
