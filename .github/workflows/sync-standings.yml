@@ -1,0 +1,37 @@
+name: Sync Group Standings
+
+on:
+  workflow_dispatch: # Allows you to trigger it manually from GitHub anytime
+  schedule:
+    - cron: "0 */3 * * *" # Runs every 3 hours
+
+permissions:
+  contents: read
+
+jobs:
+  sync-groups:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    defaults:
+      run:
+        working-directory: automation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Sync groups
+        run: npm run sync:groups # Your specific script name here
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
