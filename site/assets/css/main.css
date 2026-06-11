@@ -980,117 +980,116 @@ body.blog-body-bg html {
   }
 }
 
-/* ==========================================================================
-   GROUP STANDINGS CARDS (Add to main.css)
-   ========================================================================== */
 
+/* --- GROUP STANDINGS GRID & CARDS --- */
+
+/* 1. The Main Grid Container */
 .groups-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  /* Automatically creates as many 340px columns as will fit, ensuring it's mobile responsive */
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
+/* 2. Individual Group Cards */
 .group-card {
-  border: 1px solid var(--line-inverse);
-  border-radius: var(--radius);
-  background: linear-gradient(145deg, rgba(255, 250, 240, 0.98), rgba(246, 234, 212, 0.98));
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  color: var(--text);
-  position: relative;
+  background: rgba(15, 23, 42, 0.8); /* Dark slate blue, semi-transparent */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px); /* Gives a nice frosted glass effect over your green grid */
 }
 
-/* Accent line at the top of each card */
-.group-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--brand), var(--gold));
-}
-
+/* 3. Card Headers (e.g., "Group A") */
 .group-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.75rem;
 }
 
 .group-header h2 {
   margin: 0;
   font-size: 1.25rem;
-  font-weight: 900;
-  color: var(--brand-dark);
-  text-transform: uppercase;
+  color: #ffffff; /* Brilliant white for high contrast */
 }
 
 .group-header span {
   font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--muted);
+  color: #94a3b8;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+/* 4. The Data Table */
 .group-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  color: #e2e8f0; /* Light gray text for readability */
 }
 
+/* Table Headers (P, W, D, L, etc.) */
 .group-table th {
   text-align: center;
-  padding: 10px 8px;
-  color: var(--muted);
-  font-weight: 850;
-  border-bottom: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.03);
+  color: #94a3b8;
+  font-weight: 600;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.group-table th:nth-child(2) {
-  text-align: left; /* Align Team name to the left */
+.group-table th:nth-child(2) { 
+  text-align: left; /* Aligns the "Team" header with the badges */
 }
 
+/* Table Cells */
 .group-table td {
   text-align: center;
-  padding: 12px 8px;
-  border-bottom: 1px solid rgba(21, 16, 10, 0.06);
-  font-weight: 600;
+  padding: 0.75rem 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.group-table td:nth-child(2) {
-  text-align: left;
-  font-weight: 800;
-  color: var(--text);
+/* Keep the team badge and name cleanly aligned */
+.group-table td.team-cell {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
+  text-align: left;
+  font-weight: 500;
+  color: #ffffff;
 }
 
+/* Remove bottom border from the 4th team so it doesn't touch the card edge */
 .group-table tr:last-child td {
   border-bottom: none;
 }
 
-/* Highlight Qualification Spots (Top 2) */
+/* 5. Qualifier Highlighting (Top 2 Teams) */
+/* The Javascript already tags the top 2 teams with class="qualifier". This makes them stand out. */
 .group-table tr.qualifier td {
-  background: rgba(0, 107, 63, 0.05); /* Very light brand green */
+  background-color: rgba(34, 197, 94, 0.05); /* Very subtle green tint row */
 }
 
 .group-table tr.qualifier td:first-child {
-  color: var(--brand);
-  font-weight: 900;
-  border-left: 3px solid var(--brand); /* Green stripe on the left edge */
+  position: relative;
 }
 
-/* Subtle styling for the specific stat columns */
-.stat-pts {
-  font-weight: 900 !important;
-  color: var(--brand-dark);
+/* Adds a solid green bar to the left edge of qualifying teams */
+.group-table tr.qualifier td:first-child::before {
+  content: "";
+  position: absolute;
+  left: -1.25rem; /* Pulls it flush with the card edge */
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #22c55e;
 }
 
-.stat-gd {
-  color: var(--slate);
+/* 6. Fix Controls Readability */
+.page-controls .status-indicator {
+  color: #e2e8f0; /* Makes the "Updated 2:05:08 PM" readable against the dark background */
 }
