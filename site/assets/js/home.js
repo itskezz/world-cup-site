@@ -133,11 +133,44 @@ async function loadPredictions() {
 
 async function loadArticles() {
   if (!articlesTarget) return;
-  try {
-    const response = await fetch("/articles/articles.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Articles manifest unavailable");
 
-    const articles = await response.json();
+  try {
+    // 1. Fetch from Supabase using the built-in supabaseRead function
+    let supabaseData = [];
+    try {
+      const dbData = await supabaseRead("public_generated_articles", {
+        select: "*",
+        order: "created_at.desc",
+        limit: "6" // We only need a few for the homepage
+      });
+      
+      // Normalize to match manifest format so they blend seamlessly
+      supabaseData = dbData.map(item => ({
+        slug: item.slug || `article-${item.id}`,
+        title: item.title,
+        description: item.description,
+        type: item.article_type || item.type || "analysis",
+        primaryKeyword: item.primary_keyword || item.primaryKeyword || "World Cup 2026"
+      }));
+    } catch (dbErr) {
+      console.warn("Homepage: Could not fetch articles from Supabase", dbErr);
+    }
+
+    // 2. Fetch from local manifest
+    let manifestData = [];
+    try {
+      const response = await fetch("/articles/articles.json", { cache: "no-store" });
+      if (response.ok) {
+        manifestData = await response.json();
+      }
+    } catch (manErr) {
+      console.warn("Homepage: Could not fetch articles from manifest", manErr);
+    }
+
+    // 3. Combine, deduplicate by slug, and limit to max 6 for the layout
+    const combined = [...supabaseData, ...manifestData];
+    const articles = [...new Map(combined.map(item => [item.slug, item])).values()];
+
     if (!articles.length) {
       articlesTarget.innerHTML = `<article class="empty-state">Run the SEO article workflow to populate article cards.</article>`;
       return;
@@ -145,7 +178,7 @@ async function loadArticles() {
 
     articlesTarget.innerHTML = articles.slice(0, 6).map((article) => `
       <article class="home-card article-card-rich">
-        <span class="article-type">${escapeHtml(article.type)}</span>
+        <span class="article-type">${escapeHtml(article.type || "analysis").replace("-", " ")}</span>
         <h3><a href="/articles/${escapeHtml(article.slug)}.html">${escapeHtml(article.title)}</a></h3>
         <p>${escapeHtml(article.description)}</p>
         <div class="meta-row">
@@ -153,8 +186,9 @@ async function loadArticles() {
         </div>
       </article>
     `).join("");
-  } catch {
-    articlesTarget.innerHTML = `<article class="empty-state">Article manifest unavailable.</article>`;
+  } catch (err) {
+    console.error("Article load failed:", err);
+    articlesTarget.innerHTML = `<article class="empty-state">Article data unavailable.</article>`;
   }
 }
 
