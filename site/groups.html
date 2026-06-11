@@ -1,4 +1,3 @@
-<!-- site/groups.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,17 +7,30 @@
   <meta name="description" content="World Cup group standings, fixtures, and qualification picture.">
   <link rel="stylesheet" href="./assets/css/main.css">
   <script type="module" src="./assets/js/common.js"></script>
+  <script type="module" src="./assets/js/groups.js"></script>
 </head>
 <body>
+
   <header class="site-header" data-site-header></header>
+
   <main class="page-shell">
     <section class="page-title">
       <p class="eyebrow">Groups</p>
       <h1>Standings</h1>
       <p>Group tables and bracket data will be populated by automation.</p>
     </section>
-    <section class="data-panel"><div class="empty-state">Standings data pending.</div></section>
+
+    <div class="page-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 0.85rem; font-weight: 600;">
+      <span data-groups-status class="status-indicator">Initializing...</span>
+      <button data-refresh-groups class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; cursor: pointer;">Refresh Standings</button>
+    </div>
+
+    <section data-groups-panel class="data-panel">
+      <div class="empty-state">Standings data pending.</div>
+    </section>
   </main>
+
   <footer class="site-footer" data-site-footer></footer>
+
 </body>
 </html>

@@ -979,3 +979,118 @@ body.blog-body-bg html {
     position: static;
   }
 }
+
+/* ==========================================================================
+   GROUP STANDINGS CARDS (Add to main.css)
+   ========================================================================== */
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.group-card {
+  border: 1px solid var(--line-inverse);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(255, 250, 240, 0.98), rgba(246, 234, 212, 0.98));
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  color: var(--text);
+  position: relative;
+}
+
+/* Accent line at the top of each card */
+.group-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand), var(--gold));
+}
+
+.group-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--brand-dark);
+  text-transform: uppercase;
+}
+
+.group-header span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.group-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.group-table th {
+  text-align: center;
+  padding: 10px 8px;
+  color: var(--muted);
+  font-weight: 850;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.group-table th:nth-child(2) {
+  text-align: left; /* Align Team name to the left */
+}
+
+.group-table td {
+  text-align: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(21, 16, 10, 0.06);
+  font-weight: 600;
+}
+
+.group-table td:nth-child(2) {
+  text-align: left;
+  font-weight: 800;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Highlight Qualification Spots (Top 2) */
+.group-table tr.qualifier td {
+  background: rgba(0, 107, 63, 0.05); /* Very light brand green */
+}
+
+.group-table tr.qualifier td:first-child {
+  color: var(--brand);
+  font-weight: 900;
+  border-left: 3px solid var(--brand); /* Green stripe on the left edge */
+}
+
+/* Subtle styling for the specific stat columns */
+.stat-pts {
+  font-weight: 900 !important;
+  color: var(--brand-dark);
+}
+
+.stat-gd {
+  color: var(--slate);
+}
