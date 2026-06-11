@@ -1,5 +1,4 @@
-# site/robots.txt
 User-agent: *
 Allow: /
 
-Sitemap: https://worldcupupdates.kezcorperations.com/
+Sitemap: https://worldcupupdates.kezcorperations.com/sitemap.xml
